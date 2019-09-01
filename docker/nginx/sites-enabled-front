@@ -1,0 +1,10 @@
+server {
+        root   /home/frontend/dist;
+        listen       80;
+        server_name  localhost;
+
+        location / {
+            try_files $uri $uri/ /index.html$is_args$args;
+            index  index.html index.htm;
+        }
+    }

@@ -1,0 +1,13 @@
+# dependencies
+/index_frontend/node_modules
+
+/inex_backend/vendor
+
+/db_volume
+
+/.idea
+/dist
+/.DS_Store
+/src/.DS_Store
+/src/assets/.DS_Store
+src/assets/icons/.DS_Store
