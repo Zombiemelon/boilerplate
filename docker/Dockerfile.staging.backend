@@ -15,11 +15,10 @@ COPY --from=build-stage /app /home/inex/inex_backend
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 
-RUN chown -R :www-data /home/inex/inex_backend/storage/logs/
+RUN chown -R :www-data /home/inex/inex_backend§/storage/logs/
 RUN chown -R :www-data /home/inex/inex_backend/storage/
 RUN chmod -R g+w /home/inex/inex_backend/storage
-RUN cp .env.staging .env
-RUN cd /home/inex/inex_backend; php artisan key:generate
+RUN cd /home/inex/inex_backend; cp .env.staging .env; php artisan key:generate
 
 EXPOSE 80
 
