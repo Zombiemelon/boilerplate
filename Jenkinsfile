@@ -3,7 +3,7 @@ pipeline {
     agent any
     environment {
         CONTAINER_NAME='inex'
-        ECR_ADDRESS='276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:latest'
+        ECR_ADDRESS='276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex'
     }
     stages {
         stage ('Build Back') {
