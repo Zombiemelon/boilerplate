@@ -36,3 +36,46 @@ snapshotSerializers allows you to minimise code duplication when working with sn
 Without the serializer each time a component is created in a test it must have the enzyme-to-json method .toJson() used individually before it can be passed to Jest’s snapshot matcher, with the serializer you never use it individually.
 enzyme-adapter-react-16 - allows Enzyme to work with React
 babel-jest - allow jest usage with babel
+
+# Building & pushing image
+## Front
+`docker build -t inex_frontend -f ./docker/Dockerfile.staging.frontend . &&
+$(aws ecr get-login --no-include-email --region eu-central-1) &&
+docker tag inex_frontend:latest 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front &&
+docker push 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front`
+#### On server
+`$(aws ecr get-login --no-include-email --region eu-central-1) && 
+docker pull 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front &&
+docker stop inex_front && docker rm inex_front &&
+docker run -d -p 80:80 --name inex_front 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front`
+##Back
+`docker build -t inex_backend -f ./docker/Dockerfile.staging.backend . &&
+$(aws ecr get-login --no-include-email --region eu-central-1) &&
+docker tag inex_backend:latest 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:back &&
+docker push 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:back`
+#### On the server
+`$(aws ecr get-login --no-include-email --region eu-central-1) && 
+docker pull 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:back &&
+docker stop inex_back && docker rm inex_back &&
+docker run -d -p 8001:80 --name inex_back 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:back`
+
+#Jenkins
+##Initial setup
+1. Install Docker
+`apt-get update &&
+ apt-get install -y apt-transport-https ca-certificates curl software-properties-common &&
+ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - &&
+ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" &&
+ apt-get update &&
+ apt-cache policy docker-ce &&
+ apt-get install -y docker-ce`
+ 2. Download docker image `docker pull jenkinsci/blueocean`
+ 3. Put AWS access key to `/home/ubuntu/.aws`
+ 4. Launch container in interactive mode, so you could see admin password and copy it. 
+ `-v /var/run/docker.sock:/var/run/docker.sock` is used so you can run Docker inside Docker
+ `docker run -p 8080:8080 -p 50000:50000 -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean`
+ 5. Then run container in detached mode `docker run --name jenkins -d -p 8080:8080 -p 50000:50000 -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v /home/ubuntu/.aws:/root/.aws jenkinsci/blueocean`.
+ Here we put the following volumes:<br />
+ a. jenkins_home - contains all data about jenkins, so when container is restarted you don't have to set up all over again<br />
+ b. docker.sock - allows to use docker inside Jenkins container without additional installation
+ c. .aws - aws access key that is used to authenticate before pushing to ECR

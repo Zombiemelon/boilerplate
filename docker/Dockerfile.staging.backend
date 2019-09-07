@@ -1,6 +1,6 @@
 FROM composer:1.7.2 as build-stage
 COPY ./inex_backend /app
-RUN composer update
+RUN composer install
 
 FROM php:7.3-fpm
 RUN apt-get update; \

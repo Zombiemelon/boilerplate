@@ -1,5 +1,5 @@
 server {
-        root   /home/frontend/dist;
+        root   /home/frontend/build;
         listen       80;
         server_name  localhost;
 
