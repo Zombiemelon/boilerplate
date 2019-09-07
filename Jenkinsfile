@@ -32,7 +32,7 @@ pipeline {
     post {
         always {
             cleanWs()
-            sh 'docker system prune'
+            sh 'docker system -y prune'
         }
     }
 }
