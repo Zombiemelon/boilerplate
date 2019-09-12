@@ -1,5 +1,5 @@
 pipeline {
-    options { timeout(time: 20, unit: 'MINUTES') }
+    options { timeout(time: 25, unit: 'MINUTES') }
     agent any
     environment {
         CONTAINER_NAME='inex'
