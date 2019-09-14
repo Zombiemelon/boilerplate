@@ -79,3 +79,8 @@ docker run -d -p 8001:80 --name inex_back 276242186269.dkr.ecr.eu-central-1.amaz
  a. jenkins_home - contains all data about jenkins, so when container is restarted you don't have to set up all over again<br />
  b. docker.sock - allows to use docker inside Jenkins container without additional installation
  c. .aws - aws access key that is used to authenticate before pushing to ECR
+5. Install Python`apk add --no-cache --update python3`
+6. Install AWS CLI as non roo `pip3 install awscli --upgrade --user`
+6. Get AWS Credentials `$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)`
+7. Give rights to `ubuntu` user on remote host for `var/run/docker.sock`
+8. Install AWS CLI on remote host
