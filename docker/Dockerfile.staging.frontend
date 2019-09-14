@@ -2,8 +2,8 @@ FROM node:8-alpine as build-stage
 WORKDIR /app
 COPY ./inex_frontend/package*.json /app/
 RUN npm config set registry http://registry.npmjs.org/
-RUN npm set progress=false
-RUN npm ci
+RUN npm set progress=true
+RUN npm install
 COPY ./inex_frontend /app/
 RUN npm run build
 

@@ -17,7 +17,7 @@ pipeline {
 //                 sh 'docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f'
 //             }
 //         }
-        stage ('Build Front') {
+        stage ('Build Front')
             steps {
                 sh 'docker build -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . '
                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
@@ -36,7 +36,6 @@ pipeline {
     post {
         always {
             cleanWs()
-            sh 'docker system prune -f'
         }
     }
 }
