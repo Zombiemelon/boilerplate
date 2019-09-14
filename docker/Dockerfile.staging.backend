@@ -18,7 +18,7 @@ COPY ./docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 RUN chown -R :www-data /home/inex/inex_backend/storage/logs/
 RUN chown -R :www-data /home/inex/inex_backend/storage/
 RUN chmod -R g+w /home/inex/inex_backend/storage
-RUN cd /home/inex/inex_backend; cp .env.staging .env; php artisan key:generate
+RUN cd /home/inex/inex_backend; cp .env.staging .env; php artisan key:generate; php artisan migrate
 
 EXPOSE 80
 
