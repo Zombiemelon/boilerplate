@@ -84,3 +84,4 @@ docker run -d -p 8001:80 --name inex_back 276242186269.dkr.ecr.eu-central-1.amaz
 6. Get AWS Credentials `$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)`
 7. Give rights to `ubuntu` user on remote host for `var/run/docker.sock`
 8. Install AWS CLI on remote host
+9. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=govno666 -e MYSQL_DATABASE=inex -e MYSQL_USER=inex -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
