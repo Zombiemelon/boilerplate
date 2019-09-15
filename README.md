@@ -37,8 +37,8 @@ Without the serializer each time a component is created in a test it must have t
 enzyme-adapter-react-16 - allows Enzyme to work with React
 babel-jest - allow jest usage with babel
 
-# Building & pushing image
-## Front
+#Building & pushing image
+##Front
 `docker build -t inex_frontend -f ./docker/Dockerfile.staging.frontend . &&
 $(aws ecr get-login --no-include-email --region eu-central-1) &&
 docker tag inex_frontend:latest 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front &&
@@ -61,6 +61,14 @@ docker run -d -p 8001:80 --name inex_back 276242186269.dkr.ecr.eu-central-1.amaz
 
 #Jenkins
 ##Initial setup
+(!) Very important to use swap for small AWS instances
+`sudo fallocate -l 2G /swapfile && 
+sudo chmod 600 /swapfile && 
+sudo mkswap /swapfile && 
+sudo swapon /swapfile`
+
+https://linuxize.com/post/create-a-linux-swap-file/
+
 1. Install Docker
 `apt-get update &&
  apt-get install -y apt-transport-https ca-certificates curl software-properties-common &&
@@ -85,3 +93,6 @@ docker run -d -p 8001:80 --name inex_back 276242186269.dkr.ecr.eu-central-1.amaz
 7. Give rights to `ubuntu` user on remote host for `var/run/docker.sock`
 8. Install AWS CLI on remote host
 9. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=govno666 -e MYSQL_DATABASE=inex -e MYSQL_USER=inex -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
+
+# TODO
+1. Add fields validator middleware to the `/invoice` route

@@ -2,7 +2,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 const htmlPlugin = new HtmlWebPackPlugin({
     template: "./index.html",
-    filename: "./index.html"
+    filename: "./index.html",
 });
 
 module.exports = {
@@ -48,5 +48,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [htmlPlugin]
+    plugins: [
+        htmlPlugin
+    ]
 };
