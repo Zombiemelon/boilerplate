@@ -62,7 +62,6 @@ export default function invoice () {
 
     const getTrucks = () => {
         axios.get('/api/trucks').then(response =>  {
-            console.log(response.data)
             setTrucks(response.data);
         });
     };
@@ -96,7 +95,6 @@ export default function invoice () {
             }
         });
         setTruck(truck);
-        console.log(truck);
     };
 
     return (
