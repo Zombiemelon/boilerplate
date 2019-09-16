@@ -1,6 +1,4 @@
 # dependencies
-/index_frontend/node_modules
-
 /inex_backend/vendor
 
 /db_volume

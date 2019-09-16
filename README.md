@@ -36,28 +36,7 @@ snapshotSerializers allows you to minimise code duplication when working with sn
 Without the serializer each time a component is created in a test it must have the enzyme-to-json method .toJson() used individually before it can be passed to Jest’s snapshot matcher, with the serializer you never use it individually.
 enzyme-adapter-react-16 - allows Enzyme to work with React
 babel-jest - allow jest usage with babel
-
-#Building & pushing image
-##Front
-`docker build -t inex_frontend -f ./docker/Dockerfile.staging.frontend . &&
-$(aws ecr get-login --no-include-email --region eu-central-1) &&
-docker tag inex_frontend:latest 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front &&
-docker push 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front`
-#### On server
-`$(aws ecr get-login --no-include-email --region eu-central-1) && 
-docker pull 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front &&
-docker stop inex_front && docker rm inex_front &&
-docker run -d -p 80:80 --name inex_front 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:front`
-##Back
-`docker build -t inex_backend -f ./docker/Dockerfile.staging.backend . &&
-$(aws ecr get-login --no-include-email --region eu-central-1) &&
-docker tag inex_backend:latest 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:back &&
-docker push 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:back`
-#### On the server
-`$(aws ecr get-login --no-include-email --region eu-central-1) && 
-docker pull 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:back &&
-docker stop inex_back && docker rm inex_back &&
-docker run -d -p 8001:80 --name inex_back 276242186269.dkr.ecr.eu-central-1.amazonaws.com/inex:back`
+dotenv - allows to use `.env` to set environment variable. Read here how it should be written in Webpack https://medium.com/@trekinbami/using-environment-variables-in-react-6b0a99d83cf5.
 
 #Jenkins
 ##Initial setup
