@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Invoice from "./Containers/Invoice";
 
-
 class App extends Component {
     render() {
-        console.log(process.env);
-        console.log(process.env.REACT_APP_SERVER_HOST);
+        console.log(process.env.API_URL);
+        console.log(process.env.API_URL);
         return (
             <React.Fragment>
                 <Invoice/>

@@ -101,7 +101,7 @@ export default function invoice () {
 
     return (
         <Container maxWidth="sm">
-            <form action="http://52.58.32.133:8001/api/invoice" method="get" noValidate autoComplete="off">
+            <form action={`${process.env.API_URL}/api/invoice`} method="get" noValidate autoComplete="off">
                 <div className={classes.container}>
                     <TextField
                         id="outlined-name"
