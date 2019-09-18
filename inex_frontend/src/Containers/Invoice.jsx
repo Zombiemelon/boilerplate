@@ -7,9 +7,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import Hidden from "@material-ui/core/Hidden";
 import axios from "../Components/Axios/Axios";
-import {Input} from "@material-ui/icons";
+import {Box} from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+import Reorder from '@material-ui/icons/Reorder';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -27,13 +28,9 @@ const useStyles = makeStyles(theme => ({
     menu: {
         width: 200,
     },
-    button: {
-        margin: theme.spacing(1),
-    },
     input: {
         display: 'none',
     },
-
     root: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -44,6 +41,34 @@ const useStyles = makeStyles(theme => ({
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
+    },
+    button: {
+        background: 'rgba(34,193,195,1)',
+        color: 'white',
+        border: '2px',
+        borderRadius: 3,
+        height: 48,
+        padding: '0 30px',
+        margin: theme.spacing(1)
+    },
+    mainContainer: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+    },
+    innerContainer: {
+        background: 'white',
+        border: 0,
+        borderRadius: 3,
+        color: 'white',
+        padding: '30px',
+    },
+    bigAvatar: {
+        margin: 10,
+        width: 60,
+        height: 60,
+        backgroundColor: 'rgba(34,193,195,1)'
     },
 }));
 
@@ -98,7 +123,13 @@ export default function invoice () {
     };
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" className={classes.mainContainer}>
+            <Container maxWidth="sm" className={classes.innerContainer}>
+            <Box display="flex" justifyContent="center">
+                <Avatar className={classes.bigAvatar}>
+                    <Reorder className={classes.icon}/>
+                </Avatar>
+            </Box>
             <form action={`${process.env.API_URL}/api/invoice`} method="get" noValidate autoComplete="off">
                 <div className={classes.container}>
                     <TextField
@@ -186,14 +217,14 @@ export default function invoice () {
                         value="pdf"
                     />
                     <Button
-                        variant="contained"
-                        color="primary"
+                        variant="outlined"
                         className={classes.button}
                         type="submit">
                         Download invoice
                     </Button>
                 </div>
             </form>
+            </Container>
         </Container>
     )
 };

@@ -3,24 +3,7 @@
     margin: 0;
 }
 
-body {
-    font-family: Brandon Text Medium,sans-serif;
-    -webkit-font-smoothing: antialiased;
-    background-color: #f5f5f5;
-}
-
-:root {
-  --color-primary: #62bba5;
-  --color-primary-dark: #539e8c;
-  --color-primary-light: #bdf2e5;
-
-  --color-font: #868474;
-  --color-border: #efeee6;
-
-  --color-background-primary: #eeeeee;
-}
-
 html {
-  font-size: 62.5%; /* Now 10px = 1rem! */
-  color: var(--color-font)
+    height: 100%;
+    background: linear-gradient(234deg, rgba(34,193,195,1) 26%, rgba(253,187,45,1) 100%)
 }
