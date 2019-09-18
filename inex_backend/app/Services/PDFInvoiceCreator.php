@@ -12,7 +12,7 @@ class PDFInvoiceCreator implements DocumentInterface
     public function downloadDocument(Request $request){
         $invoiceData = $this->generateInvoiceData($request);
         $pdf = $this->generateInvoiceView($invoiceData);
-        return $pdf->download("applocation_${$invoiceData}.pdf");
+        return $pdf->download("applocation_{$invoiceData['number']}.pdf");
     }
 
     private function generateInvoiceView(array $invoiceData)

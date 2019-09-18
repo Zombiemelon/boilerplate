@@ -78,7 +78,7 @@
                                 Тягач, цистерна
                             </td>
                             <td width="50%" style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black">
-                                {{$truckNumber}}
+                                <strong>{{$truckNumber}}</strong>
                             </td>
                         </tr>
                         <tr style="padding: 10px">
@@ -86,7 +86,7 @@
                                 Водитель
                             </td>
                             <td width="50%" style="border-left: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black">
-                                {{$driver}}
+                               <strong>{{$driver}}</strong>
                             </td>
                         </tr>
                         <tr style="padding: 10px">
@@ -105,7 +105,7 @@
                     Срок поставки авто под загрузку
                 </td>
                 <td valign="bottom" width="50%" style="border: 1px solid black">
-                    {{$dateForLoading}}
+                    <strong>{{$dateForLoading}}</strong>
                 </td>
             </tr>
             <tr>
