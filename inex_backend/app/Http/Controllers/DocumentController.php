@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Car;
+use App\Document;
 use App\Driver;
 use App\Services\DocumentMatchService;
 use Illuminate\Http\Request;
@@ -12,12 +13,14 @@ class DocumentController extends Controller
     private $documentMatchService;
     private $drivers;
     private $cars;
+    private $document;
 
-    public function __construct(DocumentMatchService $documentMatchService, Driver $drivers, Car $cars)
+    public function __construct(DocumentMatchService $documentMatchService, Driver $drivers, Car $cars, Document $document)
     {
         $this->documentMatchService = $documentMatchService;
         $this->drivers = $drivers;
         $this->cars = $cars;
+        $this->document = $document;
     }
 
     /**
@@ -48,5 +51,11 @@ class DocumentController extends Controller
     public function getAllCars() :iterable
     {
         return $this->cars->getAllCars();
+    }
+
+    public function getLastDocumentNumber(Request $request)
+    {
+        $documentType = $request['document_type'];
+        return $this->document->getDocumentNumber($documentType);
     }
 }

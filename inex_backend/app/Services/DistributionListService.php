@@ -3,11 +3,11 @@
 
 namespace App\Services;
 
-
+use App\Document;
 use App\Interfaces\DocumentInterface;
 use App\Services\Factories\DocumentsFactory;
 
-class InvoiceService extends DocumentsFactory
+class DistributionListService extends DocumentsFactory
 {
     public function getDocumentCreator(string $documentFormat): DocumentInterface
     {
@@ -19,7 +19,8 @@ class InvoiceService extends DocumentsFactory
         switch ($documentFormat)
         {
             case 'pdf':
-                return new PDFInvoiceCreator();
+                $document = new Document();
+                return new PDFDistributionListCreator($document);
                 break;
             default:
                 throw new \Exception("Document type $documentFormat is not supported");

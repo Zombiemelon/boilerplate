@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(1)
     },
     mainContainer: {
+        maxHeight: '90%',
         position: 'absolute',
         top: '50%',
         left: '50%',
@@ -72,12 +73,14 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function invoice () {
+export default function distributionList () {
     const classes = useStyles();
     const [drivers, setDrivers] = useState([]);
     const [driver, setDriver] = useState([]);
     const [truck, setTruck] = useState([]);
     const [trucks, setTrucks] = useState([]);
+    const [documentNumber, setDocumentNumber] = useState(0);
+    const [dateForLoading, setDateForLoading] = useState('23-24/08/2019');
 
     const getDrivers = () => {
         axios.get('/api/drivers').then(response =>  {
@@ -91,6 +94,46 @@ export default function invoice () {
         });
     };
 
+    const getLastDocumentNumber = () => {
+        axios.get('/api/last_document_number', {
+            params: {
+                document_type: 'distribution_list',
+                document_format: 'pdf'
+            }
+        }).then(response =>  {
+            console.log(response.data);
+            setDocumentNumber(response.data+1);
+        });
+    };
+
+    const downloadDistributionList = () => {
+        axios.get('/api/distribution_list', {
+            params: {
+                document_type: 'distribution_list',
+                document_format: 'pdf',
+                number: documentNumber,
+                dateForLoading: dateForLoading,
+                truckNumber: truck.plate_number,
+                driver: `${driver.name} ${driver.surname}`,
+                driverPassport: driver.passport_number
+            },
+            //Required for file download
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response =>  {
+            //Required for file download
+            const type = response.headers['content-type'];
+            const blob = new Blob([response.data], { type: type, encoding: 'UTF-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = `distribution_list_${documentNumber}.pdf`;
+            link.click();
+            getLastDocumentNumber();
+        });
+    };
+
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
     React.useEffect(() => {
@@ -100,6 +143,7 @@ export default function invoice () {
     useEffect(() => {
         getDrivers();
         getTrucks();
+        getLastDocumentNumber();
     }, []);
 
     const selectDriver = (driverId) => {
@@ -130,13 +174,14 @@ export default function invoice () {
                     <Reorder className={classes.icon}/>
                 </Avatar>
             </Box>
-            <form action={`${process.env.API_URL}/api/invoice`} method="get" noValidate autoComplete="off">
+            <form preventDefault noValidate autoComplete="off">
                 <div className={classes.container}>
                     <TextField
                         id="outlined-name"
                         label="Number"
                         name="number"
-                        defaultValue="97"
+                        value={documentNumber}
+                        onChange={(e) => setDocumentNumber(e.target.value)}
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
@@ -145,7 +190,8 @@ export default function invoice () {
                         id="outlined-name"
                         label="Date of loading"
                         name="date_of_loading"
-                        defaultValue="23-24/08/2019"
+                        value={dateForLoading}
+                        onChange={e => setDateForLoading(e.target.value)}
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
@@ -207,7 +253,7 @@ export default function invoice () {
                         inputProps={{type: "hidden"}}
                         InputProps={{disableUnderline: true}}
                         name="document_type"
-                        value="invoice"
+                        value="distribution_list"
                     />
                     <TextField
                         required
@@ -219,7 +265,8 @@ export default function invoice () {
                     <Button
                         variant="outlined"
                         className={classes.button}
-                        type="submit">
+                        type="submit"
+                        onClick={(e) =>{e.preventDefault(); downloadDistributionList()}}>
                         Download invoice
                     </Button>
                 </div>

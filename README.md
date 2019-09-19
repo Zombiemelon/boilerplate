@@ -74,4 +74,5 @@ https://linuxize.com/post/create-a-linux-swap-file/
 9. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=govno666 -e MYSQL_DATABASE=inex -e MYSQL_USER=inex -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
 
 # TODO
-1. Add fields validator middleware to the `/invoice` route
+1. Add fields validator middleware to the `/distributionList` route
+2. Use one http call for DistributionList component

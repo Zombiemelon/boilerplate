@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Invoice from "./Containers/Invoice";
+import Invoice from "./Containers/DistributionList";
 import './index.css';
 import {Container} from "@material-ui/core";
 
