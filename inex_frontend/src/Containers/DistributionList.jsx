@@ -106,11 +106,12 @@ export default function distributionList () {
         });
     };
 
-    const downloadDistributionList = () => {
-        axios.get('/api/distribution_list', {
+    const getDocument = (deliveryMethod) => {
+        axios.get('/api/document', {
             params: {
                 document_type: 'distribution_list',
                 document_format: 'pdf',
+                delivery_method: deliveryMethod,
                 number: documentNumber,
                 dateForLoading: dateForLoading,
                 truckNumber: truck.plate_number,
@@ -124,12 +125,15 @@ export default function distributionList () {
             }
         }).then(response =>  {
             //Required for file download
-            const type = response.headers['content-type'];
-            const blob = new Blob([response.data], { type: type, encoding: 'UTF-8' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = `distribution_list_${documentNumber}.pdf`;
-            link.click();
+            if(deliveryMethod === 'download')
+            {
+                const type = response.headers['content-type'];
+                const blob = new Blob([response.data], { type: type, encoding: 'UTF-8' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `distribution_list_${documentNumber}.pdf`;
+                link.click();
+            }
             getLastDocumentNumber();
         });
     };
@@ -174,7 +178,7 @@ export default function distributionList () {
                     <Reorder className={classes.icon}/>
                 </Avatar>
             </Box>
-            <form preventDefault noValidate autoComplete="off">
+            <form noValidate autoComplete="off">
                 <div className={classes.container}>
                     <TextField
                         id="outlined-name"
@@ -248,26 +252,19 @@ export default function distributionList () {
                         margin="normal"
                         variant="outlined"
                     />
-                    <TextField
-                        required
-                        inputProps={{type: "hidden"}}
-                        InputProps={{disableUnderline: true}}
-                        name="document_type"
-                        value="distribution_list"
-                    />
-                    <TextField
-                        required
-                        inputProps={{type: "hidden"}}
-                        InputProps={{disableUnderline: true}}
-                        name="document_format"
-                        value="pdf"
-                    />
                     <Button
                         variant="outlined"
                         className={classes.button}
                         type="submit"
-                        onClick={(e) =>{e.preventDefault(); downloadDistributionList()}}>
-                        Download invoice
+                        onClick={(e) =>{e.preventDefault(); getDocument('download')}}>
+                        Download
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        className={classes.button}
+                        type="submit"
+                        onClick={(e) =>{e.preventDefault(); getDocument('email')}}>
+                        Send email
                     </Button>
                 </div>
             </form>

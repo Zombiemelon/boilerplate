@@ -8,5 +8,5 @@ use Illuminate\Http\Request;
 
 interface DocumentInterface
 {
-    public function downloadDocument(Request $request);
+    public function getDocument(Request $request, string $how);
 }

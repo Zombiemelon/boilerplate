@@ -5,16 +5,10 @@ namespace App\Services;
 
 use App\Document;
 use App\Interfaces\DocumentInterface;
-use App\Services\Factories\DocumentsFactory;
 
-class DistributionListService extends DocumentsFactory
+class DistributionListFormatMatchService
 {
-    public function getDocumentCreator(string $documentFormat): DocumentInterface
-    {
-        return $this->matchCreatorType($documentFormat);
-    }
-
-    private function matchCreatorType(string $documentFormat) : DocumentInterface
+    public function matchDocumentFormat(string $documentFormat) :DocumentInterface
     {
         switch ($documentFormat)
         {

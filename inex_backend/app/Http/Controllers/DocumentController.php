@@ -6,7 +6,10 @@ use App\Car;
 use App\Document;
 use App\Driver;
 use App\Services\DocumentMatchService;
+use Exception;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class DocumentController extends Controller
 {
@@ -25,14 +28,16 @@ class DocumentController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
-    public function downloadDocument(Request $request) {
+    public function getDocument(Request $request) {
         $documentType = $request['document_type'];
+        $documentFormat = $request['document_format'];
+        $deliveryMethod = $request['delivery_method'];
         try{
-            $invoiceService = $this->documentMatchService->matchDocument($documentType);
-            return $invoiceService->download($request);
-        } catch (\Exception $e) {
+            $documentCreator = $this->documentMatchService->getDocumentCreator($documentType, $documentFormat);
+            return $documentCreator->getDocument($request, $deliveryMethod);
+        } catch (Exception $e) {
             return response($e->getMessage(), 400);
         }
     }

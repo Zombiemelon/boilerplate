@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function(Request $request) {
     return $request->user();
 });
 Route::post('/login', 'Auth\LoginController@login');
-Route::get('/distribution_list', 'DocumentController@downloadDocument');
+Route::get('/document', 'DocumentController@getDocument');
 Route::get('/drivers', 'DocumentController@getAllDrivers');
 Route::get('/trucks', 'DocumentController@getAllCars');
 Route::get('/last_document_number', 'DocumentController@getLastDocumentNumber');
