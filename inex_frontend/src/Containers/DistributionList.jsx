@@ -135,6 +135,8 @@ export default function distributionList () {
                 link.click();
             }
             getLastDocumentNumber();
+            setDriver(''),
+                setTruck('')
         });
     };
 
