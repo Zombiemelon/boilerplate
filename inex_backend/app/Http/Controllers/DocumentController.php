@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Car;
 use App\Document;
 use App\Driver;
-use App\Services\DocumentMatchService;
+use App\Services\MatchServices\DocumentMatchService;
 use Exception;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -30,13 +30,17 @@ class DocumentController extends Controller
      * @param Request $request
      * @return ResponseFactory|Response
      */
-    public function getDocument(Request $request) {
+    public function getDocument(Request $request)
+    {
         $documentType = $request['document_type'];
         $documentFormat = $request['document_format'];
         $deliveryMethod = $request['delivery_method'];
         try{
             $documentCreator = $this->documentMatchService->getDocumentCreator($documentType, $documentFormat);
-            return $documentCreator->getDocument($request, $deliveryMethod);
+            $document = $documentCreator->getDocument($request, $deliveryMethod);
+            $deliver = $documentCreator->getDeliver($deliveryMethod);
+            $name = $documentCreator->getDocumentName();
+            return $deliver->deliver($document, $name);
         } catch (Exception $e) {
             return response($e->getMessage(), 400);
         }

@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\MatchServices;
 
 use App\Document;
 use App\Interfaces\DocumentInterface;
+use App\Services\PDFDistributionListCreator;
 
 class DistributionListFormatMatchService
 {

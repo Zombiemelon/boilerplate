@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\MatchServices;
 
 use App\Interfaces\DocumentInterface;
 use Exception;

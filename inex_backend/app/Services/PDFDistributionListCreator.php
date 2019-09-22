@@ -4,17 +4,17 @@
 namespace App\Services;
 
 use App\Document;
+use App\Interfaces\DocumentDeliveryInterface;
 use App\Interfaces\DocumentInterface;
-use App\Mail\DocumentMailer;
+use App\Services\MatchServices\PDFDeliveryMethodMatchService;
 use Barryvdh\DomPDF\Facade as PDF;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class PDFDistributionListCreator implements DocumentInterface
 {
     private $document;
     private $documentType = 'distribution_list';
+    private $distributionListData;
 
     public function __construct(Document $document)
     {
@@ -23,76 +23,20 @@ class PDFDistributionListCreator implements DocumentInterface
 
     public function getDocument(Request $request, string $deliveryMethod)
     {
-        $distributionListData = $this->generateDistributionListData($request);
-        $pdf = $this->generateDistributionListView($distributionListData);
-        $documentName = $this->generateDocumentName($distributionListData);
-        $this->save($distributionListData);
-        return $this->sendDocument($pdf, $documentName, $deliveryMethod);
+        $this->distributionListData = $this->generateDistributionListData($request);
+        $pdf = $this->generateDistributionListView();
+        $this->save($this->distributionListData);
+        return $pdf;
     }
 
-    private function sendDocument($pdf, string $documentName, string $deliveryMethod)
+    public function getDocumentName () : string
     {
-        if($deliveryMethod == 'download') {
-            return $this->download($pdf, $documentName);
-        } elseif($deliveryMethod == 'email') {
-            return $this->email($pdf, $documentName);
-        } else {
-            throw new Exception("Can't get document via $deliveryMethod");
-        }
+        return "{$this->documentType}_{$this->distributionListData['number']}.pdf";
     }
 
-    private function download($pdf, string $documentName)
+    private function generateDistributionListView()
     {
-        return $pdf->download($documentName);
-    }
-
-    private function email($pdf, string $documentName)
-    {
-        $pdf->save($documentName);
-        $subject = $this->getSubject($documentName);
-
-        $mail = new DocumentMailer($documentName);
-        $mail->subject = $subject;
-        $mail->attach($documentName);
-        $recipient = env('DOCUMENTS_EMAIL');
-        Mail::to($recipient)->send($mail);
-
-        $this->deleteDocument($documentName);
-        return 'Email has been sent';
-    }
-
-
-    function getSubject(string $documentName)
-    {
-        $splitName = explode('.', $documentName);
-        $splitNameArray = explode('_', $splitName[0]);
-        $name = "";
-        $lastElement = end($splitNameArray);
-        foreach($splitNameArray as $namePart){
-            if($lastElement !== $namePart){
-                $name .= ucfirst($namePart)." ";
-            } else {
-                $name .= ucfirst($namePart);
-            }
-
-        }
-
-        return $name;
-    }
-
-    private function deleteDocument(string $documentName) :void
-    {
-        unlink($documentName);
-    }
-
-    private function generateDocumentName (array $invoiceData) : string
-    {
-        return "{$this->documentType}_{$invoiceData['number']}.pdf";
-    }
-
-    private function generateDistributionListView(array $invoiceData)
-    {
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('distributionList', $invoiceData);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('distributionList', $this->distributionListData);
         return $pdf;
     }
 
@@ -117,5 +61,11 @@ class PDFDistributionListCreator implements DocumentInterface
         $document->number = $number;
         $document->document_type = $documentType;
         $document->save();
+    }
+
+    public function getDeliver(string $deliveryMethod) :DocumentDeliveryInterface
+    {
+        $matchService = new PDFDeliveryMethodMatchService();
+        return $matchService->matchDeliveryMethod($deliveryMethod);
     }
 }
