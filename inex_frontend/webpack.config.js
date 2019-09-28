@@ -27,7 +27,7 @@ module.exports = () => {
         module: {
             rules: [
                 {
-                    test: /\.jsx?$/,
+                    test: /\.(js|jsx)$/,
                     resolve: { extensions: [".js", ".jsx"] },
                     exclude: /node_modules/,
                     use: {

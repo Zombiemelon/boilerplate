@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\MatchServices\UserRolesService;
 use App\User;
 use App\Http\Controllers\Controller;
-use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -70,6 +70,7 @@ class RegisterController extends Controller
             return User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'roles' => UserRolesService::getAllowedRoles(UserRolesService::USER),
                 'password' => Hash::make($request->password),
                 'api_token' => Str::random(60),
             ]);

@@ -14,15 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::post('/register', 'Auth\RegisterController@create');
 Route::middleware('auth:api')->get('/user', function(Request $request) {
     return $request->user();
 });
 Route::post('/login', 'Auth\LoginController@login');
-Route::get('/document', 'DocumentController@getDocument')/*->middleware('document')*/;
-Route::get('/drivers', 'DocumentController@getAllDrivers');
-Route::get('/trucks', 'DocumentController@getAllCars');
-Route::get('/last_document_number', 'DocumentController@getLastDocumentNumber');
+Route::post('/signup', 'Auth\RegisterController@create');
+Route::get('/document', 'DocumentController@getDocument')->middleware('auth:api')/*->middleware('document')*/;;
+Route::get('/drivers', 'DocumentController@getAllDrivers')->middleware('auth:api');
+Route::get('/trucks', 'DocumentController@getAllCars')->middleware('auth:api');
+Route::get('/last_document_number', 'DocumentController@getLastDocumentNumber')->middleware('auth:api');;

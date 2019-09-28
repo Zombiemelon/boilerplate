@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class DocumentController extends Controller
 {
@@ -32,6 +33,10 @@ class DocumentController extends Controller
      */
     public function getDocument(Request $request)
     {
+        if (!Gate::allows('getDocument')) {
+            return response('You are not authorized', 403);
+        }
+
         $documentType = $request['document_type'];
         $documentFormat = $request['document_format'];
         $deliveryMethod = $request['delivery_method'];
@@ -46,24 +51,34 @@ class DocumentController extends Controller
         }
     }
 
-    /**
-     * @return iterable
-     */
-    public function getAllDrivers() :iterable
+    public function getAllDrivers()
     {
+        if (!Gate::allows('getDataRequiredForDocument')) {
+            return response('You are not authorized', 403);
+        }
+
         return $this->drivers->getAllDrivers();
     }
 
     /**
      * @return iterable
      */
-    public function getAllCars() :iterable
+    public function getAllCars()
     {
+        if (!Gate::allows('getDataRequiredForDocument')) {
+            return response('You are not authorized', 403);
+        }
+
         return $this->cars->getAllCars();
+
     }
 
     public function getLastDocumentNumber(Request $request)
     {
+        if (!Gate::allows('getDataRequiredForDocument')) {
+            return response('You are not authorized', 403);
+        }
+
         $documentType = $request['document_type'];
         return $this->document->getDocumentNumber($documentType);
     }

@@ -37,6 +37,17 @@ Without the serializer each time a component is created in a test it must have t
 enzyme-adapter-react-16 - allows Enzyme to work with React
 babel-jest - allow jest usage with babel
 dotenv - allows to use `.env` to set environment variable. Read here how it should be written in Webpack https://medium.com/@trekinbami/using-environment-variables-in-react-6b0a99d83cf5.
+notistack - used for snackbars
+
+#Front logic
+1. There are protected routes that check user id in `<ProtectedRoute/>` component.
+There you can set what roles can access the routes. On the backend routes are protected as well.
+
+
+#Backend
+1. Routes are protected with middleware that is fire when route is used doing a checks that are required. 
+For example, check that HTTP request contains all required fields.
+2. Controller actions are protected by Gates that are registered in `AuthServiceProvider.php`
 
 #Jenkins
 ##Initial setup

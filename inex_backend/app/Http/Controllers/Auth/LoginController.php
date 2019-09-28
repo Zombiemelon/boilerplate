@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
-use http\Env\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,7 +46,7 @@ class LoginController extends Controller
         );
 
         if(Auth::attempt($userdata)) {
-            return Auth::user()->api_token;
+            return Auth::user();
         } else {
             return 'Goodbye';
         }
