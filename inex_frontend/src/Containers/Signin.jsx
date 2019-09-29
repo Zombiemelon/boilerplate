@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import MainCard, { goUp, goDown } from "../Components/Basic/MainCard";
 import axios from '../Components/Axios/Axios';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -40,11 +41,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignIn(props) {
-    const [name, setName] = useState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [animation, setAnimation] = useState(goDown);
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
 
     const login = () => {
         axios.post('api/login', {
@@ -57,11 +58,17 @@ export default function SignIn(props) {
             localStorage.setItem('roles', JSON.stringify(response.data.roles));
             setAnimation(goUp)
         }).catch(function (error) {
-            console.log(error);
+            console.log(error.response.data);
+            showSnackBar('error',error.response.data);
         });
     };
 
+    const showSnackBar = (variant, message) => {
+        enqueueSnackbar(message, { variant });
+    };
+
     return (
+        <SnackbarProvider>
         <MainCard history={props.history} animation={animation}>
         <Container maxWidth="sm">
             <CssBaseline />
@@ -126,5 +133,6 @@ export default function SignIn(props) {
             </div>
         </Container>
         </MainCard>
+        </SnackbarProvider>
     );
 }

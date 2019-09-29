@@ -38,7 +38,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(\Illuminate\Http\Request $request)
+    public function login(Request $request)
     {
         $userdata = array(
             'email' => $request->input('email') ,
@@ -48,7 +48,7 @@ class LoginController extends Controller
         if(Auth::attempt($userdata)) {
             return Auth::user();
         } else {
-            return 'Goodbye';
+            return response('Incorrect Login or Password', 403);
         }
     }
 }

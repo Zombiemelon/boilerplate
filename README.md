@@ -87,3 +87,4 @@ https://linuxize.com/post/create-a-linux-swap-file/
 # TODO
 1. Add fields validator middleware to the `/distributionList` route
 2. Use one http call for DistributionList component
+3. Split email & download actions
