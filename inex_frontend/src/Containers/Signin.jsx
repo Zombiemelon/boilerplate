@@ -52,11 +52,13 @@ export default function SignIn(props) {
                 email,
                 password
         }).then(function (response) {
-            localStorage.setItem('api_token', JSON.stringify(response.data.api_token));
-            localStorage.setItem('id', JSON.stringify(response.data.id));
-            localStorage.setItem('email', JSON.stringify(response.data.email));
-            localStorage.setItem('roles', JSON.stringify(response.data.roles));
+            console.log(response);
+            response.data.api_token ? localStorage.setItem('api_token', JSON.stringify(response.data.api_token)) : console.log('No');
+            response.data.id ? localStorage.setItem('id', JSON.stringify(response.data.id)) : console.log('No');
+            response.data.email ? localStorage.setItem('email', JSON.stringify(response.data.email)) : console.log('No');
+            response.data.roles ? localStorage.setItem('roles', JSON.stringify(response.data.roles)) : console.log('No');
             setAnimation(goUp)
+
         }).catch(function (error) {
             console.log(error.response.data);
             showSnackBar('error',error.response.data);

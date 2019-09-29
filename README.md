@@ -48,6 +48,16 @@ There you can set what roles can access the routes. On the backend routes are pr
 1. Routes are protected with middleware that is fire when route is used doing a checks that are required. 
 For example, check that HTTP request contains all required fields.
 2. Controller actions are protected by Gates that are registered in `AuthServiceProvider.php`
+##Development
+1. Go to docker and run `docker-compose up` and if you want to rebuild php container add ` --build`
+##Xdebug
+1. Find your local IP address with `ipconfig getifaddr en0`
+2. Add it to `Dockerfile_dev` `xdebug.remote_host=10.0.1.11`. All the other configurations are already there
+3. Remote port should be equal to debug port in IDE (Preferences->Languages & Frameworks->Debug) `xdebug.remote_port`
+4. Add this host to `DBGp Proxy` too
+5. Add the host to `Servers` with ip of the backend. For example, `localhost:8001`
+6. Add configuration with remote debug
+7. You can debug though REST API call only direct call in browser or Postman
 
 #Jenkins
 ##Initial setup

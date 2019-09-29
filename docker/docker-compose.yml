@@ -12,6 +12,9 @@ services:
       - php
 
   php:
+    build:
+      context: ./inex_backend
+      dockerfile: Dockerfile_dev
     image: fpm_7.2:latest
     volumes:
       - ${APP_PATH_HOST_BACK}:${APP_PATH_CONTAINER_BACK}
