@@ -31,8 +31,7 @@ export const animation = css`
 
 export const MainCardDiv = styled.div`
     ${animation};
-    max-height: 90%;
-    width: 60%;
+    width: 98%;
     max-width: 600px;
     position: absolute;
     top: ${props => props.top};
@@ -42,6 +41,9 @@ export const MainCardDiv = styled.div`
     border-radius: 5px;
     background-color: white;
     padding: 30px;
+    @media (max-width: 768px) {
+        padding: 0;
+    }
 `;
 
 
