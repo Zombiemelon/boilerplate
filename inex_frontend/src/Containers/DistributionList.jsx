@@ -55,14 +55,6 @@ const useStyles = makeStyles(theme => ({
         padding: '0 30px',
         margin: theme.spacing(1)
     },
-    innerContainer: {
-        position: 'relative',
-        background: 'white',
-        border: 0,
-        borderRadius: 3,
-        color: 'white',
-        padding: '30px',
-    },
     bigAvatar: {
         margin: 10,
         width: 60,
@@ -100,7 +92,7 @@ export default function distributionList (props) {
     const [truck, setTruck] = useState([]);
     const [trucks, setTrucks] = useState([]);
     const [documentNumber, setDocumentNumber] = useState(0);
-    const [dateForLoading, setDateForLoading] = useState('23-24/08/2019');
+    const [dateForLoading, setDateForLoading] = useState('');
     const [styles, setStyles] = useState({
         width: 0,
         height: 0,
@@ -118,7 +110,16 @@ export default function distributionList (props) {
         getDrivers();
         getTrucks();
         getLastDocumentNumber();
+        getDateForLoading();
     }, []);
+
+    const getDateForLoading = () => {
+        const date = new Date((new Date()).getTime());
+        const datePlusOne = new Date((new Date()).getTime() + (60*60*24*1000));
+        const datePlusThree = new Date((new Date()).getTime() + (60*60*24*3000));
+        const dateToDisplay = `${datePlusOne.getDate()}/${datePlusOne.getMonth()+1}/${datePlusOne.getFullYear()} - ${datePlusThree.getDate()}/${datePlusThree.getMonth()+1}/${datePlusThree.getFullYear()}`
+        setDateForLoading(dateToDisplay)
+    };
 
     const openSnackbar = (message, option) => {
         enqueueSnackbar(message, {variant: option});

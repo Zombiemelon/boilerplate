@@ -33,6 +33,7 @@ export const MainCardDiv = styled.div`
     ${animation};
     width: 98%;
     max-width: 600px;
+    max-height: 650px;
     position: absolute;
     top: ${props => props.top};
     left: 50%;
