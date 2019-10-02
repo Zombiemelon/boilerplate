@@ -59,8 +59,17 @@ For example, check that HTTP request contains all required fields.
 6. Add configuration with remote debug
 7. You can debug though REST API call only direct call in browser or Postman
 
+#Testing
+[Codeception](https://github.com/codeception/codeception) is used for testing.
+1. It has a general configuration file `codeception.yml` & separate file acceptance `acceptance.suite.yml`, 
+functional `functional.suite.yml` & unit `unit.suite.yml` tests
+2. Acceptance test uses Selenium with Google WebDriver that is run in Docker. It allows to test web application as if
+it was a real user, so it is useful for JS SPA. Command to start Selenium `docker run -p 4444:4444 selenium/standalone-chrome`
+3. To run tests use the following command `php vendor/bin/codecept run --steps`
+
 #Jenkins
 ##Initial setup
+Current server IP: http://52.59.247.1:8080/manage
 (!) Very important to use swap for small AWS instances
 `sudo fallocate -l 2G /swapfile && 
 sudo chmod 600 /swapfile && 
