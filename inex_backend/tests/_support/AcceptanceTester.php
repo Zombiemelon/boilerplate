@@ -1,6 +1,7 @@
 <?php
 
 use Codeception\Actor;
+use Codeception\Util\Locator;
 
 
 /**
@@ -25,4 +26,12 @@ class AcceptanceTester extends Actor
    /**
     * Define custom actions here
     */
+
+    public function login($name, $password)
+    {
+        $I = $this;
+        $I->fillField('.MuiInputBase-input', $name);
+        $I->fillField('#password', $password);
+        $I->click(Locator::contains('span', 'Sign In'));
+    }
 }

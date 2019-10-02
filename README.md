@@ -64,8 +64,10 @@ For example, check that HTTP request contains all required fields.
 1. It has a general configuration file `codeception.yml` & separate file acceptance `acceptance.suite.yml`, 
 functional `functional.suite.yml` & unit `unit.suite.yml` tests
 2. Acceptance test uses Selenium with Google WebDriver that is run in Docker. It allows to test web application as if
-it was a real user, so it is useful for JS SPA. Command to start Selenium `docker run -p 4444:4444 selenium/standalone-chrome`
+it was a real user, so it is useful for JS SPA. Command to start Selenium `docker run -p 4444:4444 -d selenium/standalone-chrome`
 3. To run tests use the following command `php vendor/bin/codecept run --steps`
+4. For testing purpose you should change Axios base url in `.env` to host machine IP as Selenium is in Docker - `10.0.1.11:8001`. 
+(!) Currently it i change directly in Axios file.
 
 #Jenkins
 ##Initial setup
