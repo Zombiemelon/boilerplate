@@ -16,7 +16,7 @@ pipeline {
 //         }
         stage ('Test') {
             steps {
-                docker.image("docker run -p 4444:4444 -d selenium/standalone-chrome").run()
+                docker.image("selenium/standalone-chrome").run()
             }
         }
 //         stage ('Build Front') {
