@@ -15,8 +15,9 @@ pipeline {
 //             }
 //         }
         stage ('Test') {
+            agent { docker 'selenium/standalone-chrome' }
             steps {
-                docker.image("selenium/standalone-chrome").run()
+                echo 'Hello, Maven'
             }
         }
 //         stage ('Build Front') {
