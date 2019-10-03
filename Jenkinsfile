@@ -23,7 +23,7 @@ pipeline {
                             sh 'echo test'
                         }
                         docker.image("$CONTAINER_NAME:back").inside() {
-                            sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run --steps'
+                            sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
                         }
                     }
                 }
