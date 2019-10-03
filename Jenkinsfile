@@ -8,15 +8,15 @@ pipeline {
         CONTAINER_NAME_BACK='inex_back'
     }
     stages {
-        stage ('Build Back') {
-            steps {
-                sh 'ls -alh'
-                sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
-            }
-        }
+//         stage ('Build Back') {
+//             steps {
+//                 sh 'ls -alh'
+//                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
+//             }
+//         }
         stage ('Test') {
             steps {
-                sh 'docker run -p 4444:4444 -d selenium/standalone-chrome'
+                docker.image("docker run -p 4444:4444 -d selenium/standalone-chrome").run()
             }
         }
 //         stage ('Build Front') {
@@ -44,10 +44,10 @@ pipeline {
 //             }
 //         }
     }
-    post {
-        always {
-            cleanWs()
-            sh 'docker system prune -f'
-        }
-    }
+//     post {
+//         always {
+//             cleanWs()
+//             sh 'docker system prune -f'
+//         }
+//     }
 }
