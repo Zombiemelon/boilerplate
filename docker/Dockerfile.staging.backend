@@ -18,7 +18,7 @@ COPY ./docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 RUN chown -R :www-data /home/inex/inex_backend/storage/logs/
 RUN chown -R :www-data /home/inex/inex_backend/storage/
 RUN chown -R :www-data /home/inex/inex_backend/public
-RUN chmod -R :www-data /home/inex/inex_backend/tests
+RUN chown -R :www-data /home/inex/inex_backend/tests
 RUN chmod -R g+w /home/inex/inex_backend/storage
 RUN chmod -R g+w /home/inex/inex_backend/public
 RUN chmod -R g+w /home/inex/inex_backend/tests
