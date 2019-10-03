@@ -8,12 +8,12 @@ pipeline {
         CONTAINER_NAME_BACK='inex_back'
     }
     stages {
-        stage ('Build Back') {
-            steps {
-                sh 'ls -alh'
-                sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
-            }
-        }
+//         stage ('Build Back') {
+//             steps {
+//                 sh 'ls -alh'
+//                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
+//             }
+//         }
         stage ('Test') {
             steps {
                 script {
@@ -23,7 +23,7 @@ pipeline {
                             sh 'echo test'
                         }
                         docker.image("$CONTAINER_NAME:back").inside() {
-                            sh 'docker ps'
+                            sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run --steps'
                         }
                     }
                 }
