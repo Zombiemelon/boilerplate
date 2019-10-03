@@ -20,7 +20,7 @@ pipeline {
                     docker.image('selenium/standalone-chrome').withRun('--name selenium') {
                         c ->
                         docker.image('selenium/standalone-chrome').inside() {
-                            sh 'echo ${c.id}'
+                            sh 'echo test'
                         }
                     }
                 }
