@@ -14,6 +14,11 @@ pipeline {
                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
             }
         }
+        stage ('Test') {
+            steps {
+                sh 'docker run -p 4444:4444 -d selenium/standalone-chrome'
+            }
+        }
 //         stage ('Build Front') {
 //             steps {
 //                 sh 'docker build -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . '
@@ -24,15 +29,15 @@ pipeline {
 //                 sh 'docker image rm -f ${CONTAINER_NAME}:front && docker image prune -f'
 //             }
 //         }
-        stage ('Push Docker Images') {
-            steps {
-                sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
-                sh 'docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back'
-                sh 'docker push $ECR_ADDRESS:back'
-                sh 'echo "Delete image"'
-                sh 'docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f'
-            }
-        }
+//         stage ('Push Docker Images') {
+//             steps {
+//                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
+//                 sh 'docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back'
+//                 sh 'docker push $ECR_ADDRESS:back'
+//                 sh 'echo "Delete image"'
+//                 sh 'docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f'
+//             }
+//         }
 //         stage('Deploy') {
 //             steps {
 //                 sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "\$(aws ecr get-login --no-include-email --region eu-central-1) && docker pull ${ECR_ADDRESS}:back && docker pull ${ECR_ADDRESS}:front && docker rm -f ${CONTAINER_NAME_FRONT} && docker rm -f ${CONTAINER_NAME_BACK} ; docker run --name ${CONTAINER_NAME_BACK} -d -p 8001:80 ${ECR_ADDRESS}:back && docker run --name ${CONTAINER_NAME_FRONT} -d -p 80:80 ${ECR_ADDRESS}:front", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
