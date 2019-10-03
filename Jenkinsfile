@@ -17,7 +17,7 @@ pipeline {
         stage ('Test') {
             steps {
                 script {
-                    docker.image('selenium/standalone-chrome').withRun('-p 4444:4444') {
+                    docker.image('selenium/standalone-chrome').withRun('-t selenium') {
                         echo 'Test!'
                     }
                 }
