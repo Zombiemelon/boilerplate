@@ -25,11 +25,13 @@ pipeline {
 //             }
 //         }
         stage ('Push Docker Images') {
-            sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
-            sh 'docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back'
-            sh 'docker push $ECR_ADDRESS:back'
-            sh 'echo "Delete image"'
-            sh 'docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f'
+            steps {
+                sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
+                sh 'docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back'
+                sh 'docker push $ECR_ADDRESS:back'
+                sh 'echo "Delete image"'
+                sh 'docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f'
+            }
         }
 //         stage('Deploy') {
 //             steps {
