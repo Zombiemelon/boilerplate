@@ -8,16 +8,19 @@ pipeline {
         CONTAINER_NAME_BACK='inex_back'
     }
     stages {
-//         stage ('Build Back') {
-//             steps {
-//                 sh 'ls -alh'
-//                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
-//             }
-//         }
-        stage ('Test') {
-            agent { docker 'selenium/standalone-chrome' }
+        stage ('Build Back') {
             steps {
-                echo 'Hello, Maven'
+                sh 'ls -alh'
+                sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
+            }
+        }
+        stage ('Test') {
+            steps {
+                script {
+                    docker.image('selenium/standalone-chrome').withRun('-p 4444:4444') {
+                        echo 'Test!'
+                    }
+                }
             }
         }
 //         stage ('Build Front') {
