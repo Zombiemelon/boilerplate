@@ -21,7 +21,7 @@ pipeline {
                     try {
                         sh "curl localhost:8001"
                         sh "docker stop $CONTAINER_NAME_BACK; docker rm $CONTAINER_NAME_BACK"
-                    } catch {
+                    } catch (err){
                         sh "docker stop $CONTAINER_NAME_BACK; docker rm $CONTAINER_NAME_BACK"
                     }
 //                     docker.image("$CONTAINER_NAME:back").inside('-p 8001:80 --name inex_back -itd --network=test') {
