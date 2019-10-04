@@ -17,7 +17,9 @@ pipeline {
         stage ('Test') {
             steps {
                 script {
-                    docker.image("$CONTAINER_NAME:back").run('-p 8001:80 --name inex_back -itd --network=test')
+                    sh "docker stop $CONTAINER_NAME:back; docker rm $CONTAINER_NAME:back"
+                    docker.image("$CONTAINER_NAME:back").run("-p 8001:80 --name ${CONTAINER_NAME_BACK} -itd --network=test")
+
 //                     docker.image("$CONTAINER_NAME:back").inside('-p 8001:80 --name inex_back -itd --network=test') {
 //                         sh 'docker network inspect test'
 //                         sh 'curl inex_back:8001'
