@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     //docker.image("$CONTAINER_NAME:back").run('--name inex_back -itd --network=test')
-                    docker.image("$CONTAINER_NAME:back").inside('--name inex_back -itd --network=test') {
+                    docker.image("$CONTAINER_NAME:back").inside('-p 8001:80 --name inex_back -itd --network=test') {
                         sh 'ls -al'
                         sh 'curl localhost'
                         //sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
