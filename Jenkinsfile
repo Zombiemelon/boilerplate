@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     docker.image('selenium/standalone-chrome').withRun("--name=selenium -itd --network=test") {
-                           docker.image("$CONTAINER_NAME_BACK:back").inside("-itd --network=test") {
+                           docker.image("$CONTAINER_NAME:back").inside("-itd --network=test") {
                                 sh "cd /home/inex/inex_backend; ls -al"
                            }
                     }
