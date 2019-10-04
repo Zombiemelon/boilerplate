@@ -11,7 +11,7 @@ class FirstCest
         $I->amOnPage('/');
         $I->wait(3);
         $I->login('eat@me.com', 'govno666');
-        $I->wait(5);
+        $I->wait(6);
         $I->see('Download', '.MuiButton-label');
     }
 }
