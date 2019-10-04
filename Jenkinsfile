@@ -19,7 +19,7 @@ pipeline {
                 script {
                     docker.image("$CONTAINER_NAME:back").withRun('--name inex_back') {
                         c ->
-                        docker.image("$CONTAINER_NAME:back").inside('-itd --network=test') {
+                        docker.image("$CONTAINER_NAME:back").inside('--name inex_back -itd --network=test') {
                             //sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
                         }
                         docker.image('selenium/standalone-chrome').inside('-itd --network=test') {
