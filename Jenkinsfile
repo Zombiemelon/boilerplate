@@ -8,12 +8,12 @@ pipeline {
         CONTAINER_NAME_BACK='inex_back'
     }
     stages {
-//         stage ('Build Back') {
-//             steps {
-//                 sh 'ls -alh'
-//                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
-//             }
-//         }
+        stage ('Build Back') {
+            steps {
+                sh 'ls -alh'
+                sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
+            }
+        }
 //         stage ('Build Front') {
 //             steps {
 //                 sh 'ls -alh'
