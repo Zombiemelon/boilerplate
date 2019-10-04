@@ -17,13 +17,14 @@ pipeline {
         stage ('Test') {
             steps {
                 script {
-                    docker.image('selenium/standalone-chrome').withRun('--name selenium') {
+                    docker.image('selenium/standalone-chrome').withRun('--name selenium -itd --network=test') {
                         c ->
-                        docker.image('selenium/standalone-chrome').inside() {
+                        docker.image('selenium/standalone-chrome').inside('-itd --network=test') {
                             sh 'echo test'
                         }
-                        docker.image("$CONTAINER_NAME:back").inside() {
-                            sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
+                        docker.image("$CONTAINER_NAME:back").inside('-itd --network=test') {
+                            sh 'curl inex_back:8001'
+                            //sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
                         }
                     }
                 }
