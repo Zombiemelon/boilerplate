@@ -17,11 +17,11 @@ pipeline {
         stage ('Test') {
             steps {
                 script {
-                    docker.image("$CONTAINER_NAME:back").withRun('--name inex_back -itd --network=test') {
+                    docker.image("$CONTAINER_NAME:back").withRun('--name inex_back') {
                         c ->
-//                         docker.image().inside('--name inex_back -itd --network=test') {
-//                             //sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
-//                         }
+                        docker.image().inside('-itd --network=test') {
+                            //sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
+                        }
                         docker.image('selenium/standalone-chrome').inside('-itd --network=test') {
                             sh 'curl inex_back:8001'
                             sh 'echo test'
