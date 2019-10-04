@@ -8,8 +8,8 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://10.0.1.11:3001
-            host: 10.0.1.11
+            url: http://52.59.247.1:3001
+            host: 52.59.247.1
             port: 4444
             browser: chrome
         - \Helper\Acceptance
