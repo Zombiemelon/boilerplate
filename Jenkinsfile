@@ -14,19 +14,21 @@ pipeline {
 //                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
 //             }
 //         }
-        stage ('Build Front') {
-            steps {
-                sh 'ls -alh'
-                sh 'docker build -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . '
-            }
-        }
+//         stage ('Build Front') {
+//             steps {
+//                 sh 'ls -alh'
+//                 sh 'docker build -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . '
+//             }
+//         }
         stage ('Test') {
             steps {
                 script {
-                    docker.image('selenium/standalone-chrome').withRun("--name=selenium -itd --network=test") {
-                           docker.image("$CONTAINER_NAME:back").inside("-itd --network=test") {
+                    docker.image('selenium/standalone-chrome').withRun("-p 4444:4444 --name=selenium -itd --network=test") {
+                        docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=inex_front -itd --network=test") {
+                            docker.image("$CONTAINER_NAME:back").inside("-p 8001:80 --name=inex_back -itd --network=test") {
                                 sh "cd /home/inex/inex_backend; ls -al"
-                           }
+                            }
+                        }
                     }
                     //docker.image('selenium/standalone-chrome').run("-p 4444:4444 -itd --network=test")
 

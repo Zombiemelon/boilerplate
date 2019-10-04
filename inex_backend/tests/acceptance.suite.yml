@@ -8,8 +8,8 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://10.0.1.11:3001
-            host: 10.0.1.11
+            url: http://inex_front:3001
+            host: selenium
             port: 4444
             browser: chrome
         - \Helper\Acceptance
