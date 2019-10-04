@@ -14,12 +14,12 @@ pipeline {
 //                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
 //             }
 //         }
-//         stage ('Build Front') {
-//             steps {
-//                 sh 'ls -alh'
-//                 sh 'docker build -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . '
-//             }
-//         }
+        stage ('Build Front') {
+            steps {
+                sh 'ls -alh'
+                sh 'docker build -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . '
+            }
+        }
         stage ('Test') {
             steps {
                 script {
