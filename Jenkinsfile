@@ -18,10 +18,10 @@ pipeline {
             steps {
                 script {
                     docker.image("$CONTAINER_NAME:back").run("-p 8001:80 --name $CONTAINER_NAME_BACK -itd --network=test")
-                    docker.image('selenium/standalone-chrome').run("-p 4444:4444 -itd --network=test")
-//                     docker.image('selenium/standalone-chrome').inside("-itd --network=test") {
-//                         sh "curl $CONTAINER_NAME_BACK:8001"
-//                     }
+                    //docker.image('selenium/standalone-chrome').run("-p 4444:4444 -itd --network=test")
+                    docker.image('selenium/standalone-chrome').inside("-itd --network=test") {
+                        sh "curl $CONTAINER_NAME_BACK"
+                    }
 //                     try {
 //                         sh "curl localhost:8001"
 //                         sh "docker stop $CONTAINER_NAME_BACK; docker rm $CONTAINER_NAME_BACK"
