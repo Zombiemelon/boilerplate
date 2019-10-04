@@ -17,10 +17,10 @@ pipeline {
         stage ('Test') {
             steps {
                 script {
-                    docker.image("$CONTAINER_NAME:back").withRun("-p 8001:80 --name $CONTAINER_NAME_BACK -itd --network=test") {
-                        docker.image('selenium/standalone-chrome').inside("-itd --network=test") {
-                            sh "curl $CONTAINER_NAME_BACK"
-                        }
+                    docker.image('selenium/standalone-chrome').withRun("--name=selenium -itd --network=test") {
+                           docker.image("$CONTAINER_NAME_BACK").inside("-itd --network=test") {
+                                sh "cd /home/inex/inex_backend; ls -al"
+                           }
                     }
                     //docker.image('selenium/standalone-chrome').run("-p 4444:4444 -itd --network=test")
 
