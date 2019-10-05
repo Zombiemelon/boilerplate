@@ -21,6 +21,7 @@ pipeline {
         }
         stage ('Test') {
             steps {
+                sh 'docker network create test'
                 script {
                     docker.image('selenium/standalone-chrome').withRun("-p 4444:4444 --name=selenium -itd --network=test") {
                         docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=inex_front -itd --network=test") {
@@ -36,7 +37,7 @@ pipeline {
         }
         stage ('Build Production Back') {
             steps {
-                sh "docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.back . "
+                sh "docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
             }
         }
         stage ('Build Production Front') {
