@@ -16,7 +16,7 @@ pipeline {
 //         }
         stage ('Build Front') {
             steps {
-                sh "docker build -e env_file=.env.test -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
+                sh "docker build -e \"env_file=.env.test\" -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
             }
         }
         stage ('Test') {
