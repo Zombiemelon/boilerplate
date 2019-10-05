@@ -46,7 +46,7 @@ export default function SignIn(props) {
     const [animation, setAnimation] = useState(goDown);
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
-console.log(${process.env.API_URL})
+console.log(process.env.API_URL)
     const login = () => {
         axios.post('api/login', {
                 email,
