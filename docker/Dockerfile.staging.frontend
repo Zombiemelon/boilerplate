@@ -1,3 +1,5 @@
+ARG ENV=.env.staging
+
 FROM node:8-alpine as build-stage
 WORKDIR /app
 COPY ./inex_frontend/package*.json /app/
@@ -5,7 +7,7 @@ RUN npm config set registry http://registry.npmjs.org/
 RUN npm set progress=true
 RUN npm update
 COPY ./inex_frontend /app/
-RUN cp .env.staging .env
+RUN cp $ENV .env
 RUN npm run build
 
 FROM nginx:1.13

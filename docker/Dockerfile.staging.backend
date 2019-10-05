@@ -1,6 +1,3 @@
-ARG ENV=.env.staging
-ENV = $ENV
-
 FROM composer:1.7.2 as build-stage
 COPY ./inex_backend /app
 RUN composer install
@@ -26,7 +23,7 @@ RUN chmod -R g+w /home/inex/inex_backend/storage
 RUN chmod -R g+w /home/inex/inex_backend/public
 RUN chmod -R 777 /home/inex/inex_backend/tests
 RUN mkdir /home/inex/inex_backend/tests/functional
-RUN cd /home/inex/inex_backend; cp $ENV .env; php artisan key:generate; php artisan migrate
+RUN cd /home/inex/inex_backend; cp .env.staging .env; php artisan key:generate; php artisan migrate
 
 EXPOSE 80
 
