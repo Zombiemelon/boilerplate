@@ -34,16 +34,16 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage ('Build Production Back') {
-            steps {
-                sh "docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
-            }
-        }
-        stage ('Build Production Front') {
-            steps {
-                sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
-            }
-        }
+//         stage ('Build Production Back') {
+//             steps {
+//                 sh "docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
+//             }
+//         }
+//         stage ('Build Production Front') {
+//             steps {
+//                 sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
+//             }
+//         }
         stage ('Push Image Back') {
             steps {
                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
