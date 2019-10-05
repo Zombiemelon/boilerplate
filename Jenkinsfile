@@ -21,7 +21,6 @@ pipeline {
 //         }
         stage ('Test') {
             steps {
-                sh 'docker network create test'
                 script {
                     docker.image('selenium/standalone-chrome').withRun("-p 4444:4444 --name=selenium -itd --network=test") {
                         docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=inex_front -itd --network=test") {
