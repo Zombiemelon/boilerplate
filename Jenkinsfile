@@ -26,6 +26,7 @@ pipeline {
                     docker.image('selenium/standalone-chrome').withRun("-p 4444:4444 --name=selenium -itd --network=test") {
                         docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=inex_front -itd --network=test") {
                             docker.image("$CONTAINER_NAME:back").inside("-v /output:/home/inex/inex_backend/tests/_output -p 8001:80 --name=inex_back -itd --network=test") {
+                                sh 'pwd; ls -al'
                                 sh 'curl inex_back'
                                 sh "cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
                                 sh 'echo "Test is over"'
