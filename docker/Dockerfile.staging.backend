@@ -25,7 +25,7 @@ RUN chmod -R g+w /home/inex/inex_backend/storage
 RUN chmod -R g+w /home/inex/inex_backend/public
 RUN chmod -R 777 /home/inex/inex_backend/tests
 RUN mkdir /home/inex/inex_backend/tests/functional
-RUN cd /home/inex/inex_backend; php artisan key:generate; php artisan migrate
+RUN cd /home/inex/inex_backend; cp $env_file .env; php artisan key:generate; php artisan migrate
 
 EXPOSE 80
 
