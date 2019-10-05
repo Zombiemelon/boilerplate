@@ -42,7 +42,7 @@ pipeline {
         }
         stage ('Build Production Front') {
             steps {
-                sh "docker build --build-arg arg=.env.test -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
+                sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
             }
         }
         stage ('Push Image Back') {
