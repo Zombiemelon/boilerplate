@@ -16,7 +16,8 @@ pipeline {
 //         }
         stage ('Build Front') {
             steps {
-                sh "docker build --build-arg 'arg=.env.test' -t inex:front -f ./docker/Dockerfile.staging.frontend ."
+                sh 'ls -alh'
+                sh 'docker build -e env_file=.env.test -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . '
             }
         }
         stage ('Test') {
@@ -27,24 +28,50 @@ pipeline {
                             docker.image("$CONTAINER_NAME:back").withRun("-v /output:/home/inex/inex_backend/tests/_output -p 8001:80 --name=inex_back -itd --network=test") {
                                 docker.image("$CONTAINER_NAME:back").inside("-itd --network=test") {
                                     sh "cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
+                                    sh 'echo "Test is over"'
                                 }
                             }
                         }
                     }
+                    //docker.image('selenium/standalone-chrome').run("-p 4444:4444 -itd --network=test")
+
+//                     try {
+//                         sh "curl localhost:8001"
+//                         sh "docker stop $CONTAINER_NAME_BACK; docker rm $CONTAINER_NAME_BACK"
+//                     } catch (err){
+//                         sh "docker stop $CONTAINER_NAME_BACK; docker rm $CONTAINER_NAME_BACK"
+//                     }
+//                     docker.image("$CONTAINER_NAME:back").inside('-p 8001:80 --name inex_back -itd --network=test') {
+//                         sh 'docker network inspect test'
+//                         sh 'curl inex_back:8001'
+//                         sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
+//                     }
+//                     docker.image("$CONTAINER_NAME:back").withRun('--name inex_back -itd --network=test') {
+//                         c ->
+//                         docker.image("$CONTAINER_NAME:back").inside() {
+//                             sh 'ls -al'
+//                             sh 'curl localhost'
+//                             //sh 'cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug'
+//                         }
+//                         docker.image('selenium/standalone-chrome').inside('-itd --network=test') {
+//                             sh 'curl inex_back:8001'
+//                             sh 'echo test'
+//                         }
+//                     }
                 }
             }
         }
-//         stage ('Build Production Back') {
+//         stage ('Build Front') {
 //             steps {
-//                 sh "docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
+//                 sh 'docker build -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . '
+//                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
+//                 sh 'docker tag $CONTAINER_NAME:front $ECR_ADDRESS:front'
+//                 sh 'docker push $ECR_ADDRESS:front'
+//                 sh 'echo "Delete image"'
+//                 sh 'docker image rm -f ${CONTAINER_NAME}:front && docker image prune -f'
 //             }
 //         }
-//         stage ('Build Production Front') {
-//             steps {
-//                 sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
-//             }
-//         }
-//         stage ('Push Image Back') {
+//         stage ('Push Docker Images') {
 //             steps {
 //                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
 //                 sh 'docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back'
@@ -53,25 +80,16 @@ pipeline {
 //                 sh 'docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f'
 //             }
 //         }
-//         stage ('Push Image Front') {
-//             steps {
-//                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
-//                 sh 'docker tag $CONTAINER_NAME:front $ECR_ADDRESS:front'
-//                 sh 'docker push $ECR_ADDRESS:front'
-//                 sh 'echo "Delete image"'
-//                 sh 'docker image rm -f ${CONTAINER_NAME}:front && docker image prune -f'
-//             }
-//         }
 //         stage('Deploy') {
 //             steps {
 //                 sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "\$(aws ecr get-login --no-include-email --region eu-central-1) && docker pull ${ECR_ADDRESS}:back && docker pull ${ECR_ADDRESS}:front && docker rm -f ${CONTAINER_NAME_FRONT} && docker rm -f ${CONTAINER_NAME_BACK} ; docker run --name ${CONTAINER_NAME_BACK} -d -p 8001:80 ${ECR_ADDRESS}:back && docker run --name ${CONTAINER_NAME_FRONT} -d -p 80:80 ${ECR_ADDRESS}:front", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 //             }
 //         }
-//     }
+    }
 //     post {
 //         always {
 //             cleanWs()
 //             sh 'docker system prune -f'
 //         }
-     }
+//     }
 }
