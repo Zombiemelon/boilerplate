@@ -8,19 +8,20 @@ pipeline {
         CONTAINER_NAME_BACK='inex_back'
     }
     stages {
-        stage ('Build Back') {
-            steps {
-                sh 'ls -alh'
-                sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
-            }
-        }
-        stage ('Build Front') {
-            steps {
-                sh "docker build --build-arg 'arg=.env.test' -t inex:front -f ./docker/Dockerfile.staging.frontend ."
-            }
-        }
+//         stage ('Build Back') {
+//             steps {
+//                 sh 'ls -alh'
+//                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
+//             }
+//         }
+//         stage ('Build Front') {
+//             steps {
+//                 sh "docker build --build-arg 'arg=.env.test' -t inex:front -f ./docker/Dockerfile.staging.frontend ."
+//             }
+//         }
         stage ('Test') {
             steps {
+                sh 'docker network create test'
                 script {
                     docker.image('selenium/standalone-chrome').withRun("-p 4444:4444 --name=selenium -itd --network=test") {
                         docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=inex_front -itd --network=test") {
