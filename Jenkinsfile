@@ -23,10 +23,13 @@ pipeline {
         stage ('Test') {
             steps {
                 script {
-                    docker.image("$CONTAINER_NAME:back").run("-v /output:/home/inex/inex_backend/tests/_output -p 8001:80 --name=inex_back -itd --network=test")
                     docker.image('selenium/standalone-chrome').withRun("-p 4444:4444 --name=selenium -itd --network=test") {
                         docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=inex_front -itd --network=test") {
-                                sh "docker exec -d inex_back cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
+                            docker.image("$CONTAINER_NAME:back").run("-v /output:/home/inex/inex_backend/tests/_output -p 8001:80 --name=inex_back -itd --network=test") {
+                                sh 'curl localhost'
+                                sh "cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
+                                sh 'echo "Test is over"'
+                            }
                         }
                     }
                     //docker.image('selenium/standalone-chrome').run("-p 4444:4444 -itd --network=test")
