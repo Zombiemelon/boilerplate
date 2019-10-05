@@ -10,12 +10,12 @@ pipeline {
     stages {
         stage ('Build Back') {
             steps {
-                sh "docker build --build-arg 'arg=.env.example' -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend ."
+                sh "docker build --build-arg arg=.env.example -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend ."
             }
         }
         stage ('Build Front') {
             steps {
-                sh "docker build --build-arg 'arg=.env.test' -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend ."
+                sh "docker build --build-arg arg=.env.test -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend ."
             }
         }
         stage ('Test') {
@@ -45,7 +45,7 @@ pipeline {
         }
 //         stage ('Build Production Back') {
 //             steps {
-//                 sh "docker build --build-arg 'arg=.env.staging' -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
+//                 sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
 //             }
 //         }
 //         stage ('Build Production Front') {
