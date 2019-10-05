@@ -3,7 +3,7 @@ const axios = require('axios');
 const apiToken = JSON.parse(localStorage.getItem('api_token'));
 
 const instance = axios.create({
-    baseURL: `yo`,
+    baseURL: `inex_back`,
     timeout: 50000,
     headers: {
         'Access-Control-Allow-Origin': '*',
