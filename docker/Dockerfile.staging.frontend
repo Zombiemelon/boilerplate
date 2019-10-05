@@ -1,5 +1,6 @@
 FROM node:8-alpine as build-stage
-ENV env_file=.env.staging
+ARG arg
+ENV env_file=$arg
 WORKDIR /app
 COPY ./inex_frontend/package*.json /app/
 RUN npm config set registry http://registry.npmjs.org/
