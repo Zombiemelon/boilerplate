@@ -14,11 +14,11 @@ pipeline {
 //                 sh 'docker build -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend .'
 //             }
 //         }
-//         stage ('Build Front') {
-//             steps {
-//                 sh "docker build --build-arg arg=.env.test -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
-//             }
-//         }
+        stage ('Build Front') {
+            steps {
+                sh "docker build -e env_file=.env.test -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
+            }
+        }
         stage ('Test') {
             steps {
                 script {
