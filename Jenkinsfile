@@ -51,7 +51,7 @@ pipeline {
         }
         stage ('Push Image Back') {
             steps {
-                sh "$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)"
+                sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
                 sh "docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back"
                 sh "docker push $ECR_ADDRESS:back"
                 sh "echo \"Delete image\""
@@ -60,7 +60,7 @@ pipeline {
         }
         stage ('Push Image Front') {
             steps {
-                sh "$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)"
+                sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
                 sh "docker tag $CONTAINER_NAME:front $ECR_ADDRESS:front"
                 sh "docker push $ECR_ADDRESS:front"
                 sh "echo \"Delete image\""
