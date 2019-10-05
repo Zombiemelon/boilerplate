@@ -15,7 +15,7 @@ pipeline {
         }
         stage ('Build Front') {
             steps {
-                sh "docker build --build-arg 'arg=.env.test' -t inex:front -f ./docker/Dockerfile.staging.frontend ."
+                sh "docker build --build-arg 'arg=.env.test' -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend ."
             }
         }
         stage ('Test') {
