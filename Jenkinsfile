@@ -13,11 +13,11 @@ pipeline {
                 sh "docker build --build-arg 'arg=.env' -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend ."
             }
         }
-//         stage ('Build Front') {
-//             steps {
-//                 sh "docker build --build-arg 'arg=.env.test' -t inex:front -f ./docker/Dockerfile.staging.frontend ."
-//             }
-//         }
+        stage ('Build Front') {
+            steps {
+                sh "docker build --build-arg 'arg=.env.test' -t inex:front -f ./docker/Dockerfile.staging.frontend ."
+            }
+        }
         stage ('Test') {
             steps {
                 // Create network where I will connect all containers
