@@ -8,14 +8,14 @@ pipeline {
         CONTAINER_NAME_BACK='inex_back'
     }
     stages {
-        stage ('Build Back') {
-            steps {
-                sh "docker build --build-arg 'arg=.env' -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend ."
-            }
-        }
+//         stage ('Build Back') {
+//             steps {
+//                 sh "docker build --build-arg 'arg=.env' -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend ."
+//             }
+//         }
         stage ('Build Front') {
             steps {
-                sh "docker build --build-arg 'arg=.env.test' -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend ."
+                sh "docker build --build-arg 'arg_env=.env.test' -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend ."
             }
         }
         stage ('Test') {
@@ -78,9 +78,9 @@ pipeline {
 //         }
     }
     post {
-        always {
-            cleanWs()
-            sh 'docker system prune -f'
-        }
+//         always {
+//             cleanWs()
+//             sh 'docker system prune -f'
+//         }
      }
 }
