@@ -25,7 +25,9 @@ RUN chown -R :www-data /home/inex/inex_backend/storage/logs/; \
     chmod -R g+w /home/inex/inex_backend/public; \
     chmod -R 777 /home/inex/inex_backend/tests;
 RUN mkdir /home/inex/inex_backend/tests/functional
-RUN cd /home/inex/inex_backend; cp $staging .env; php artisan key:generate
+RUN cd /home/inex/inex_backend; \
+    cp ${staging} .env; \
+    php artisan key:generate
 
 EXPOSE 80
 
