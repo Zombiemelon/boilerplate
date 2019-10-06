@@ -44,11 +44,11 @@ pipeline {
 //                 }
 //             }
 //         }
-//         stage ('Build Production Back') {
-//             steps {
-//                 sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
-//             }
-//         }
+        stage ('Build Production Back') {
+            steps {
+                sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
+            }
+        }
 //         stage ('Build Production Front') {
 //             steps {
 //                 sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
