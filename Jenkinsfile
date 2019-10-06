@@ -78,10 +78,10 @@ pipeline {
 //             }
 //         }
      }
-//     post {
-//         always {
-//             cleanWs()
-//             sh 'docker system prune -f'
-//         }
-//      }
+    post {
+        always {
+            cleanWs()
+            sh 'docker system prune -f'
+        }
+     }
 }
