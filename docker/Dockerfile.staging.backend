@@ -24,6 +24,7 @@ RUN chown -R :www-data /home/inex/inex_backend/storage/logs/; \
     chmod -R g+w /home/inex/inex_backend/storage; \
     chmod -R g+w /home/inex/inex_backend/public; \
     chmod -R 777 /home/inex/inex_backend/tests;
+    chmod -R 777 /home/inex/inex_backend/migration.sh;
 RUN mkdir /home/inex/inex_backend/tests/functional
 RUN cd /home/inex/inex_backend; \
     cp $staging .env; \
