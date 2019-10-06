@@ -44,25 +44,25 @@ pipeline {
 //                 }
 //             }
 //         }
-//         stage ('Build Production Back') {
-//             steps {
-//                 sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
-//             }
-//         }
+        stage ('Build Production Back') {
+            steps {
+                sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
+            }
+        }
 //         stage ('Build Production Front') {
 //             steps {
 //                 sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
 //             }
 //         }
-//         stage ('Push Image Back') {
-//             steps {
-//                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
-//                 sh "docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back"
-//                 sh "docker push $ECR_ADDRESS:back"
-//                 sh "echo \"Delete image\""
-//                 sh "docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f"
-//             }
-//         }
+        stage ('Push Image Back') {
+            steps {
+                sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
+                sh "docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back"
+                sh "docker push $ECR_ADDRESS:back"
+                sh "echo \"Delete image\""
+                sh "docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f"
+            }
+        }
 //         stage ('Push Image Front') {
 //             steps {
 //                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'

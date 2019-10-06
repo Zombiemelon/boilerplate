@@ -33,4 +33,3 @@ RUN cd /home/inex/inex_backend; \
 EXPOSE 80
 
 CMD ["service", "supervisor", "start"]
-ENTRYPOINT ["echo","'Test'"]
