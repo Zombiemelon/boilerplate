@@ -34,6 +34,7 @@ pipeline {
                                 docker.image("$CONTAINER_NAME:back").withRun("-v /output:/home/inex/inex_backend/tests/_output -p 8001:80 --name=inex_back -itd --network=test") {
                                     //...and with inside command execute commands *surprise* inside the container
                                     docker.image("$CONTAINER_NAME:back").inside("-itd --network=test") {
+                                        sh 'cd /home/inex/inex_backend; php artisan migrate'
                                         sh "cd /home/inex/inex_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
                                     }
                                 }
