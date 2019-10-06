@@ -7,7 +7,7 @@ pipeline {
         CONTAINER_NAME_FRONT='inex_front'
         CONTAINER_NAME_BACK='inex_back'
     }
-//     stages {
+    stages {
 //         stage ('Build Back') {
 //             steps {
 //                 sh "docker build --build-arg arg=.env.example -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend ."
