@@ -1,4 +1,4 @@
-#Frontend Dependencies
+# Frontend Dependencies
 React - core of the project, JS library
 ReactDOM - allows to render DOM in React
 
@@ -39,18 +39,18 @@ babel-jest - allow jest usage with babel
 dotenv - allows to use `.env` to set environment variable. Read here how it should be written in Webpack https://medium.com/@trekinbami/using-environment-variables-in-react-6b0a99d83cf5.
 notistack - used for snackbars
 
-#Front logic
+# Front logic
 1. There are protected routes that check user id in `<ProtectedRoute/>` component.
 There you can set what roles can access the routes. On the backend routes are protected as well.
 
 
-#Backend
+# Backend
 1. Routes are protected with middleware that is fire when route is used doing a checks that are required. 
 For example, check that HTTP request contains all required fields.
 2. Controller actions are protected by Gates that are registered in `AuthServiceProvider.php`
-##Development
+## Development
 1. Go to docker and run `docker-compose up` and if you want to rebuild php container add ` --build`
-##Xdebug
+## Xdebug
 1. Find your local IP address with `ipconfig getifaddr en0`
 2. Add it to `Dockerfile_dev` `xdebug.remote_host=10.0.1.11`. All the other configurations are already there
 3. Remote port should be equal to debug port in IDE (Preferences->Languages & Frameworks->Debug) `xdebug.remote_port`
@@ -59,8 +59,19 @@ For example, check that HTTP request contains all required fields.
 6. Add configuration with remote debug
 7. You can debug though REST API call only direct call in browser or Postman
 
-#Jenkins
-##Initial setup
+# Testing
+[Codeception](https://github.com/codeception/codeception) is used for testing.
+1. It has a general configuration file `codeception.yml` & separate file acceptance `acceptance.suite.yml`, 
+functional `functional.suite.yml` & unit `unit.suite.yml` tests
+2. Acceptance test uses Selenium with Google WebDriver that is run in Docker. It allows to test web application as if
+it was a real user, so it is useful for JS SPA. Command to start Selenium `docker run -p 4444:4444 -d selenium/standalone-chrome`
+3. To run tests use the following command `php vendor/bin/codecept run --steps`
+4. For testing purpose you should change Axios base url in `.env` to host machine IP as Selenium is in Docker - `10.0.1.11:8001`. 
+(!) Currently it i change directly in Axios file.
+
+# Jenkins
+## Initial setup
+Current server IP: http://52.59.247.1:8080/manage
 (!) Very important to use swap for small AWS instances
 `sudo fallocate -l 2G /swapfile && 
 sudo chmod 600 /swapfile && 
@@ -93,6 +104,17 @@ https://linuxize.com/post/create-a-linux-swap-file/
 7. Give rights to `ubuntu` user on remote host for `var/run/docker.sock`
 8. Install AWS CLI on remote host
 9. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=govno666 -e MYSQL_DATABASE=inex -e MYSQL_USER=inex -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
+
+## Jenkinsfile
+1. Backend build is clear 
+2. Frontend contains `--build-arg 'arg=.env.test'` that is passed to the Dockerfile where it is used in `ARG arg ENV env_file=$arg` to replace `.env` files.
+3. Test part is more interesting and described in the Jenkinsfile
+4. Build backend & frontend. Backend is the same & to front we just push a different `.env`
+5. Push image to ECR
+a. Get credentials for AWS
+b. Apply tag that contains data about the registry
+c. Delete image
+6. Deploy quite clear
 
 # TODO
 1. Add fields validator middleware to the `/distributionList` route
