@@ -27,7 +27,7 @@ pipeline {
                 script {
                     //withRun command starts the container and doesn't stop it until all inside is executed.
                     //Commands inside are executed on HOST machine
-                    docker.image("$ECR_ADDRESS:db").withRun("-p 3306:3306 --name=db -itd --network=test") {
+                    docker.image("$ECR_ADDRESS:db").withRun("-p 3306:3306 --name=dbb -itd --network=test") {
                         docker.image("selenium/standalone-chrome").withRun("-p 4444:4444 --name=selenium -itd --network=test") {
                             docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=inex_front -itd --network=test") {
                                 //We start backend container...
