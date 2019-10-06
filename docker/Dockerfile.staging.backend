@@ -5,6 +5,7 @@ COPY ./inex_backend /app
 RUN composer install
 
 FROM php:7.3-fpm
+RUN echo $staging
 RUN apt-get update; \
     apt-get install -y libpng-dev; \
     docker-php-ext-install gd \
