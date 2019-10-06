@@ -5,7 +5,6 @@ RUN composer install
 FROM php:7.3-fpm
 ARG arg
 ENV staging=.env.example
-RUN echo $staging
 RUN apt-get update; \
     apt-get install -y libpng-dev; \
     docker-php-ext-install gd \
