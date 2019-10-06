@@ -1,6 +1,6 @@
 FROM composer:1.7.2 as build-stage
 ARG arg
-ENV env_staging=.env.staging
+ENV env_staging=$arg
 COPY ./inex_backend /app
 RUN composer install
 
@@ -29,4 +29,4 @@ RUN cd /home/inex/inex_backend; cp $env_staging .env; php artisan key:generate; 
 
 EXPOSE 80
 
-CMD ["service", "supervisor", "start"]
+CMD echo $env_staging
