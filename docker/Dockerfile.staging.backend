@@ -1,6 +1,6 @@
 FROM composer:1.7.2 as build-stage
 ARG arg
-ENV staging=$arg
+ENV staging=.env.example
 COPY ./inex_backend /app
 RUN composer install
 
@@ -26,7 +26,7 @@ RUN chown -R :www-data /home/inex/inex_backend/storage/logs/; \
     chmod -R 777 /home/inex/inex_backend/tests;
 RUN mkdir /home/inex/inex_backend/tests/functional
 RUN cd /home/inex/inex_backend
-RUN cp ${staging} .env
+RUN cp $staging .env
 RUN php artisan key:generate
 
 EXPOSE 80
