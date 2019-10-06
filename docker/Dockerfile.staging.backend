@@ -29,4 +29,4 @@ RUN cd /home/inex/inex_backend; cp $env_staging .env; php artisan key:generate; 
 
 EXPOSE 80
 
-CMD echo $env_staging
+CMD ["service", "supervisor", "start"]
