@@ -58,44 +58,54 @@ pipeline {
         }
         stage ('Build Production Back') {
             steps {
-                if (env.GIT_BRANCH == 'origin/master') {
-                    sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
+                script {
+                    if (env.GIT_BRANCH == 'origin/master') {
+                        sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
+                    }
                 }
             }
         }
         stage ('Build Production Front') {
             steps {
-                if (env.GIT_BRANCH == 'origin/master') {
-                    sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
+                script {
+                    if (env.GIT_BRANCH == 'origin/master') {
+                        sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
+                    }
                 }
             }
         }
         stage ('Push Image Back') {
             steps {
-                if (env.GIT_BRANCH == 'origin/master') {
-                    sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
-                    sh "docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back"
-                    sh "docker push $ECR_ADDRESS:back"
-                    sh "echo \"Delete image\""
-                    sh "docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f"
+                script {
+                    if (env.GIT_BRANCH == 'origin/master') {
+                        sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
+                        sh "docker tag $CONTAINER_NAME:back $ECR_ADDRESS:back"
+                        sh "docker push $ECR_ADDRESS:back"
+                        sh "echo \"Delete image\""
+                        sh "docker image rm -f ${CONTAINER_NAME}:back && docker image prune -f"
+                    }
                 }
             }
         }
         stage ('Push Image Front') {
             steps {
-                if (env.GIT_BRANCH == 'origin/master') {
-                    sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
-                    sh "docker tag $CONTAINER_NAME:front $ECR_ADDRESS:front"
-                    sh "docker push $ECR_ADDRESS:front"
-                    sh "echo \"Delete image\""
-                    sh "docker image rm -f ${CONTAINER_NAME}:front && docker image prune -f"
+                script {
+                    if (env.GIT_BRANCH == 'origin/master') {
+                        sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
+                        sh "docker tag $CONTAINER_NAME:front $ECR_ADDRESS:front"
+                        sh "docker push $ECR_ADDRESS:front"
+                        sh "echo \"Delete image\""
+                        sh "docker image rm -f ${CONTAINER_NAME}:front && docker image prune -f"
+                    }
                 }
             }
         }
         stage('Deploy') {
             steps {
-                if (env.GIT_BRANCH == 'origin/master') {
-                    sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "\$(aws ecr get-login --no-include-email --region eu-central-1); docker pull ${ECR_ADDRESS}:back; docker pull ${ECR_ADDRESS}:front; docker rm -f ${CONTAINER_NAME_FRONT}; docker rm -f ${CONTAINER_NAME_BACK} ; docker run --name ${CONTAINER_NAME_BACK} -d -p 8001:80 ${ECR_ADDRESS}:back && docker exec -i ${CONTAINER_NAME_BACK} /home/inex/inex_backend/migration.sh && docker run --name ${CONTAINER_NAME_FRONT} -d -p 80:80 ${ECR_ADDRESS}:front", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                script {
+                    if (env.GIT_BRANCH == 'origin/master') {
+                        sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "\$(aws ecr get-login --no-include-email --region eu-central-1); docker pull ${ECR_ADDRESS}:back; docker pull ${ECR_ADDRESS}:front; docker rm -f ${CONTAINER_NAME_FRONT}; docker rm -f ${CONTAINER_NAME_BACK} ; docker run --name ${CONTAINER_NAME_BACK} -d -p 8001:80 ${ECR_ADDRESS}:back && docker exec -i ${CONTAINER_NAME_BACK} /home/inex/inex_backend/migration.sh && docker run --name ${CONTAINER_NAME_FRONT} -d -p 80:80 ${ECR_ADDRESS}:front", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                    }
                 }
             }
         }
