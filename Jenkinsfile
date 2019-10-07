@@ -10,7 +10,12 @@ pipeline {
     stages {
         stage('Jo') {
             steps {
-                sh("echo $env.GIT_BRANCH")
+                if (env.BRANCH_NAME == 'master') {
+                    echo 'I only execute on the master branch'
+                } else {
+                    echo 'I execute elsewhere'
+                }
+                sh("echo $env.BRANCH")
             }
         }
 //         stage ('Build Back') {
