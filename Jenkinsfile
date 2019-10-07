@@ -8,9 +8,9 @@ pipeline {
         CONTAINER_NAME_BACK='inex_back'
     }
     stages {
-    stage('Jo') {
-        sh("echo $env.GIT_BRANCH")
-    }
+        stage('Jo') {
+            sh("echo $env.GIT_BRANCH")
+        }
 //         stage ('Build Back') {
 //             steps {
 //                 sh "docker build --build-arg arg=.env.example -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend ."
@@ -86,5 +86,5 @@ pipeline {
 //             cleanWs()
 //             sh 'docker system prune -f'
 //         }
-//      }
+     }
 }
