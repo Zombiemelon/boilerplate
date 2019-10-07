@@ -9,7 +9,9 @@ pipeline {
     }
     stages {
         stage('Jo') {
-            sh("echo $env.GIT_BRANCH")
+            steps {
+                sh("echo $env.GIT_BRANCH")
+            }
         }
 //         stage ('Build Back') {
 //             steps {
