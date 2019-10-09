@@ -1,7 +1,7 @@
 # dependencies
-/inex_backend/vendor
+/dvmeal_backend/vendor
 node_modules/
-/inex_frontend/node_modules/
+/dvmeal_frontend/node_modules/
 
 /db_volume
 

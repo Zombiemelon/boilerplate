@@ -2,11 +2,11 @@ FROM node:8-alpine as build-stage
 ARG arg
 ENV env_file=$arg
 WORKDIR /app
-COPY ./inex_frontend/package*.json /app/
+COPY ./dvmeal_frontend/package*.json /app/
 RUN npm config set registry http://registry.npmjs.org/
 RUN npm set progress=true
 RUN npm update
-COPY ./inex_frontend /app/
+COPY ./dvmeal_frontend /app/
 RUN cp $env_file .env
 RUN npm run build
 

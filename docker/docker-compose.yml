@@ -13,7 +13,7 @@ services:
 
   php:
     build:
-      context: ./inex_backend
+      context: dvmeal_backend
       dockerfile: Dockerfile_dev
     image: fpm_7.2:latest
     volumes:
@@ -24,8 +24,8 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: test_password
-      MYSQL_DATABASE: inex
-      MYSQL_USER: devuser
+      MYSQL_DATABASE: dvmeal
+      MYSQL_USER: dvmeal
       MYSQL_PASSWORD: devpass
     volumes:
       - ../db_volume:/var/lib/mysql

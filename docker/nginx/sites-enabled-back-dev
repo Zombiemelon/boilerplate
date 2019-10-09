@@ -1,5 +1,5 @@
 server {
-    root   /home/inex/inex_backend/public;
+    root   /home/dvmeal/dvmeal_backend/public;
     listen       80;
     server_name  localhost;
 
