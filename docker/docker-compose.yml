@@ -49,7 +49,7 @@ services:
     working_dir: ${APP_PATH_CONTAINER_BACK}
     command: composer update
 
-  front:
+  inex_front:
     image: node:8-alpine
     ports:
           - ${REACT_PORT}:3001

@@ -8,18 +8,6 @@ pipeline {
         CONTAINER_NAME_BACK='inex_back'
     }
     stages {
-        stage('Jo') {
-            steps {
-                script {
-                    if (env.GIT_BRANCH == 'origin/master') {
-                        echo 'I only execute on the master branch'
-                    } else {
-                        echo 'I execute elsewhere'
-                    }
-                }
-                sh("echo $env.BRANCH")
-            }
-        }
         stage ('Build Back') {
             steps {
                 sh "docker build --build-arg arg=.env.example -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend ."
