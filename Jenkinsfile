@@ -18,32 +18,32 @@ pipeline {
                 sh "docker build --build-arg arg=.env.test -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend ."
             }
         }
-        stage ('Test') {
-            steps {
-                // Create network where I will connect all containers
-                sh "docker network create test"
-                //Get aws credentials
-                sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
-                script {
-                    //withRun command starts the container and doesn't stop it until all inside is executed.
-                    //Commands inside are executed on HOST machine
-                    docker.image("$ECR_ADDRESS:db").withRun("-p 3306:3306 --name=db -itd --network=test") {
-                        docker.image("selenium/standalone-chrome").withRun("-p 4444:4444 --name=selenium -itd --network=test") {
-                            docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=dvmeal_front -itd --network=test") {
-                                //We start backend container...
-                                docker.image("$CONTAINER_NAME:back").withRun("-v /output:/home/dvmeal/dvmeal_backend/tests/_output -p 8001:80 --name=dvmeal_back -itd --network=test") {
-                                    //...and with inside command execute commands *surprise* inside the container
-                                    docker.image("$CONTAINER_NAME:back").inside("-itd --network=test") {
-                                        sh '/home/dvmeal/dvmeal_backend/migration.sh'
-                                        sh "cd /home/dvmeal/dvmeal_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//         stage ('Test') {
+//             steps {
+//                 // Create network where I will connect all containers
+//                 sh "docker network create test"
+//                 //Get aws credentials
+//                 sh '$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)'
+//                 script {
+//                     //withRun command starts the container and doesn't stop it until all inside is executed.
+//                     //Commands inside are executed on HOST machine
+//                     docker.image("$ECR_ADDRESS:db").withRun("-p 3306:3306 --name=db -itd --network=test") {
+//                         docker.image("selenium/standalone-chrome").withRun("-p 4444:4444 --name=selenium -itd --network=test") {
+//                             docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=dvmeal_front -itd --network=test") {
+//                                 //We start backend container...
+//                                 docker.image("$CONTAINER_NAME:back").withRun("-v /output:/home/dvmeal/dvmeal_backend/tests/_output -p 8001:80 --name=dvmeal_back -itd --network=test") {
+//                                     //...and with inside command execute commands *surprise* inside the container
+//                                     docker.image("$CONTAINER_NAME:back").inside("-itd --network=test") {
+//                                         sh '/home/dvmeal/dvmeal_backend/migration.sh'
+//                                         sh "cd /home/dvmeal/dvmeal_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
         stage ('Build Production Back') {
             steps {
                 script {
