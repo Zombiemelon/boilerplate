@@ -4,7 +4,7 @@ services:
   nginx:
     image: nginx:1.13
     ports:
-      - ${NGINX_PORT}:80
+      - ${NGINX_PORT_HOST}:${NGINX_PORT_CONTAINER}
     volumes:
       - ${APP_PATH_HOST_BACK}:${APP_PATH_CONTAINER_BACK}
       - ${SITES_ENABLED_HOST_BACK}:${SITES_ENABLED_CONTAINER_BACK}
@@ -13,34 +13,26 @@ services:
 
   php:
     build:
-      context: dvmeal_backend
+      context: ${BACKEND_FOLDER}
       dockerfile: Dockerfile_dev
     image: fpm_7.2:latest
     volumes:
       - ${APP_PATH_HOST_BACK}:${APP_PATH_CONTAINER_BACK}
       - ./php/php.ini:/usr/local/etc/php/php.ini
+    working_dir: ${APP_PATH_CONTAINER_BACK}
+    command: [sh, -c, "tail -F php artisan migrate"]
 
   db:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: test_password
-      MYSQL_DATABASE: dvmeal
-      MYSQL_USER: dvmeal
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
       MYSQL_PASSWORD: devpass
     volumes:
       - ../db_volume:/var/lib/mysql
     ports:
-      - "3306:3306"
-
-
-#  react:
-#    image: nginx:1.13
-#    ports:
-#      - ${REACT_PORT}:443
-#    volumes:
-#      - ./build:/home/frontend/build
-#      - ./nginx.conf:/etc/nginx/nginx.conf
-#      - ./sites-enabled-front:/etc/nginx/conf.d/front.conf
+      - ${DB_PORT_HOST}:${DB_PORT_CONTAINER}
 
   composer:
     image: composer:1.7.2
@@ -52,7 +44,7 @@ services:
   inex_front:
     image: node:8-alpine
     ports:
-          - ${REACT_PORT}:3001
+          - ${REACT_PORT_HOST}:${REACT_PORT_CONTAINER}
     volumes:
       - ${APP_PATH_HOST_FRONT}:${APP_PATH_CONTAINER_FRONT}
     working_dir: ${APP_PATH_CONTAINER_FRONT}

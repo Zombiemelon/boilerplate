@@ -1,5 +1,5 @@
 server {
-    root   /home/dvmeal/dvmeal_backend/public;
+    root   /home/backend/public;
     listen       80;
     server_name  localhost;
 

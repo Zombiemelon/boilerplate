@@ -2,10 +2,10 @@ pipeline {
     options { timeout(time: 25, unit: 'MINUTES') }
     agent any
     environment {
-        CONTAINER_NAME='dvmeal'
-        ECR_ADDRESS='276242186269.dkr.ecr.eu-central-1.amazonaws.com/dvmeal'
-        CONTAINER_NAME_FRONT='dvmeal_front'
-        CONTAINER_NAME_BACK='dvmeal_back'
+        CONTAINER_NAME='container'
+        ECR_ADDRESS='your_ecr_url'
+        CONTAINER_NAME_FRONT='front'
+        CONTAINER_NAME_BACK='back'
     }
     stages {
         stage ('Build Back') {
@@ -31,11 +31,11 @@ pipeline {
 //                         docker.image("selenium/standalone-chrome").withRun("-p 4444:4444 --name=selenium -itd --network=test") {
 //                             docker.image("$CONTAINER_NAME:front").withRun("-p 3001:80 --name=dvmeal_front -itd --network=test") {
 //                                 //We start backend container...
-//                                 docker.image("$CONTAINER_NAME:back").withRun("-v /output:/home/dvmeal/dvmeal_backend/tests/_output -p 8001:80 --name=dvmeal_back -itd --network=test") {
+//                                 docker.image("$CONTAINER_NAME:back").withRun("-v /output:/home/backend/tests/_output -p 8001:80 --name=dvmeal_back -itd --network=test") {
 //                                     //...and with inside command execute commands *surprise* inside the container
 //                                     docker.image("$CONTAINER_NAME:back").inside("-itd --network=test") {
-//                                         sh '/home/dvmeal/dvmeal_backend/migration.sh'
-//                                         sh "cd /home/dvmeal/dvmeal_backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
+//                                         sh '/home/backend/migration.sh'
+//                                         sh "cd /home/backend; php vendor/bin/codecept run acceptance FirstCest.php --debug"
 //                                     }
 //                                 }
 //                             }
@@ -92,7 +92,7 @@ pipeline {
             steps {
                 script {
                     if (env.GIT_BRANCH == 'origin/master') {
-                        sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "\$(aws ecr get-login --no-include-email --region eu-central-1); docker pull ${ECR_ADDRESS}:back; docker pull ${ECR_ADDRESS}:front; docker rm -f ${CONTAINER_NAME_FRONT}; docker rm -f ${CONTAINER_NAME_BACK} ; docker run --name ${CONTAINER_NAME_BACK} -d -p 8003:80 ${ECR_ADDRESS}:back && docker exec -i ${CONTAINER_NAME_BACK} /home/dvmeal/dvmeal_backend/migration.sh && docker run --name ${CONTAINER_NAME_FRONT} -d -p 3002:80 ${ECR_ADDRESS}:front", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                        sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "\$(aws ecr get-login --no-include-email --region eu-central-1); docker pull ${ECR_ADDRESS}:back; docker pull ${ECR_ADDRESS}:front; docker rm -f ${CONTAINER_NAME_FRONT}; docker rm -f ${CONTAINER_NAME_BACK} ; docker run --name ${CONTAINER_NAME_BACK} -d -p 8003:80 ${ECR_ADDRESS}:back && docker exec -i ${CONTAINER_NAME_BACK} /home/backend/migration.sh && docker run --name ${CONTAINER_NAME_FRONT} -d -p 3002:80 ${ECR_ADDRESS}:front", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                     }
                 }
             }

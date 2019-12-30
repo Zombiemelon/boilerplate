@@ -1,4 +1,4 @@
 #!/bin/bash
-cd /home/dvmeal/dvmeal_backend;
+cd /home/backend;
 php vendor/bin/codecept run --steps
 exit 1;

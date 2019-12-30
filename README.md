@@ -45,7 +45,7 @@ There you can set what roles can access the routes. On the backend routes are pr
 
 
 # Backend
-1. Routes are protected with middleware that is fire when route is used doing a checks that are required. 
+1. Routes are protected with middleware that is fired when route is used doing checks that are required. 
 For example, check that HTTP request contains all required fields.
 2. Controller actions are protected by Gates that are registered in `AuthServiceProvider.php`
 ## Development
@@ -103,7 +103,7 @@ https://linuxize.com/post/create-a-linux-swap-file/
 6. Get AWS Credentials `$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)`
 7. Give rights to `ubuntu` user on remote host for `var/run/docker.sock`
 8. Install AWS CLI on remote host
-9. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=govno666 -e MYSQL_DATABASE=inex -e MYSQL_USER=inex -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
+9. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=govno666 -e MYSQL_DATABASE=database -e MYSQL_USER=user -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
 
 ## Jenkinsfile
 1. Backend build is clear 
