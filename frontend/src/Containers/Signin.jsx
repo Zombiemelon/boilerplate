@@ -10,6 +10,15 @@ import Button from '../Components/Basic/Button';
 import { Link } from "react-router-dom";
 import axios from '../Components/Axios/Axios';
 
+const StyledLink = styled(Link)`
+      &:visited {
+        color: inherit
+      };
+      &:hover {
+        background: linear-gradient(90deg, #92FE9D 0%, #00C9FF 100%) !important
+      }
+`;
+
 export default function SignIn(props) {
     const [{ palette }] = useThemeValue();
     const [{ user }, dispatch] = useUserValue();
@@ -57,15 +66,15 @@ export default function SignIn(props) {
                 gridRow: '1 / span 2',
                 gridColumn: '10 / span 3',
             }}>
-                <Link style={{
+                <StyledLink style={{
                     textDecoration: 'none',
-                    color: 'inherit !important',
+                    color: 'grey !important',
                     background: 'linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%)',
                     borderRadius: '5px',
-                    padding: '5px'
-                }} to="/signup">
+                    padding: '5px',
+                }} to="/signup" color="white">
                     Sign Up
-                </Link>
+                </StyledLink>
             </div>
 
                 <Input style={{
