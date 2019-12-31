@@ -5,8 +5,6 @@ import SignIn from "./Containers/Signin";
 import SignUp from "./Containers/Signup";
 import MainPage from "./Containers/MainPage";
 import './index.css';
-//import { createMuiTheme } from '@material-ui/core/styles';
-//import { ThemeProvider } from '@material-ui/styles';
 import { Route, Switch, BrowserRouter, Redirect} from "react-router-dom";
 import ProtectedRoute from "./Components/Authentication/ProtectedRoute";
 

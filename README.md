@@ -1,4 +1,14 @@
-# Frontend Dependencies
+#How to use
+##Frontend
+1. Your starting point is `./src/App.js`. 
+Here you have to Context API Providers:
+a. `ThemeProvider` - allows you to pass theme data to all components
+b. `UserProvider` - allows you to pass user data to all components. User can be changed via `reducer`
+Protected Routes authorize users based on `allowedRoles` prop. Don't worry authorization is done on backend as well.
+2. All other elements are in `Components`, `Containers` & `Context` folders.
+3. `Signin` & `Signup` containers allow to create and authenticate user
+
+### Frontend Dependencies
 React - core of the project, JS library
 ReactDOM - allows to render DOM in React
 
@@ -38,11 +48,6 @@ enzyme-adapter-react-16 - allows Enzyme to work with React
 babel-jest - allow jest usage with babel
 dotenv - allows to use `.env` to set environment variable. Read here how it should be written in Webpack https://medium.com/@trekinbami/using-environment-variables-in-react-6b0a99d83cf5.
 notistack - used for snackbars
-
-# Front logic
-1. There are protected routes that check user id in `<ProtectedRoute/>` component.
-There you can set what roles can access the routes. On the backend routes are protected as well.
-
 
 # Backend
 1. Routes are protected with middleware that is fired when route is used doing checks that are required. 
@@ -115,8 +120,3 @@ a. Get credentials for AWS
 b. Apply tag that contains data about the registry
 c. Delete image
 6. Deploy quite clear
-
-# TODO
-1. Add fields validator middleware to the `/distributionList` route
-2. Use one http call for DistributionList component
-3. Split email & download actions
