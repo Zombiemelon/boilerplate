@@ -1,9 +1,22 @@
-#How to use
-##Frontend
+# What it is
+This is a boilerplate that has the following stack:
+1. React - frontend
+2. Laravel - backend
+3. Docker - development and deployment container tool
+4. Jenkins - CI/CD
+5. Xdebug - debugging
+6. Codeception - backend testing
+7. Jest & Enzyme - frontend testing
+8. AWS - deployment platform
+All setup steps are described below so that you can easily start developing.
+
+## Development
+1. Go to docker and run `docker-compose up` and if you want to rebuild php container add ` --build`
+## Frontend
 1. Your starting point is `./src/App.js`. 
 Here you have to Context API Providers:
-a. `ThemeProvider` - allows you to pass theme data to all components
-b. `UserProvider` - allows you to pass user data to all components. User can be changed via `reducer`
+- `ThemeProvider` - allows you to pass theme data to all components
+- `UserProvider` - allows you to pass user data to all components. User can be changed via `reducer`
 Protected Routes authorize users based on `allowedRoles` prop. Don't worry authorization is done on backend as well.
 2. All other elements are in `Components`, `Containers` & `Context` folders.
 3. `Signin` & `Signup` containers allow to create and authenticate user
@@ -53,8 +66,7 @@ notistack - used for snackbars
 1. Routes are protected with middleware that is fired when route is used doing checks that are required. 
 For example, check that HTTP request contains all required fields.
 2. Controller actions are protected by Gates that are registered in `AuthServiceProvider.php`
-## Development
-1. Go to docker and run `docker-compose up` and if you want to rebuild php container add ` --build`
+
 ## Xdebug
 1. Find your local IP address with `ipconfig getifaddr en0`
 2. Add it to `Dockerfile_dev` `xdebug.remote_host=10.0.1.11`. All the other configurations are already there
@@ -76,7 +88,6 @@ it was a real user, so it is useful for JS SPA. Command to start Selenium `docke
 
 # Jenkins
 ## Initial setup
-Current server IP: http://52.59.247.1:8080/manage
 (!) Very important to use swap for small AWS instances
 `sudo fallocate -l 2G /swapfile && 
 sudo chmod 600 /swapfile && 
@@ -93,22 +104,22 @@ https://linuxize.com/post/create-a-linux-swap-file/
  apt-get update &&
  apt-cache policy docker-ce &&
  apt-get install -y docker-ce`
- 2. Download docker image `docker pull jenkinsci/blueocean`
- 3. Put AWS access key to `/home/ubuntu/.aws`
- 4. Launch container in interactive mode, so you could see admin password and copy it. 
+2. Download docker image `docker pull jenkinsci/blueocean`
+3. Put AWS access key to `/home/ubuntu/.aws`
+4. Launch container in interactive mode, so you can see admin password and copy it. 
  `-v /var/run/docker.sock:/var/run/docker.sock` is used so you can run Docker inside Docker
  `docker run -p 8080:8080 -p 50000:50000 -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean`
- 5. Then run container in detached mode `docker run --name jenkins -d -p 8080:8080 -p 50000:50000 -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v /home/ubuntu/.aws:/root/.aws jenkinsci/blueocean`.
+5. Then run container in detached mode `docker run --name jenkins -d -p 8080:8080 -p 50000:50000 -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v /home/ubuntu/.aws:/root/.aws jenkinsci/blueocean`.
  Here we put the following volumes:<br />
- a. jenkins_home - contains all data about jenkins, so when container is restarted you don't have to set up all over again<br />
- b. docker.sock - allows to use docker inside Jenkins container without additional installation
- c. .aws - aws access key that is used to authenticate before pushing to ECR
-5. Install Python`apk add --no-cache --update python3`
-6. Install AWS CLI as non roo `pip3 install awscli --upgrade --user`
-6. Get AWS Credentials `$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)`
-7. Give rights to `ubuntu` user on remote host for `var/run/docker.sock`
-8. Install AWS CLI on remote host
-9. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=govno666 -e MYSQL_DATABASE=database -e MYSQL_USER=user -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
+ - jenkins_home - contains all data about jenkins, so when container is restarted you don't have to set up all over again<br />
+ - docker.sock - allows to use docker inside Jenkins container without additional installation
+ - .aws - aws access key that is used to authenticate before pushing to ECR
+6. Install Python`apk add --no-cache --update python3`
+7. Install AWS CLI as non root `pip3 install awscli --upgrade --user`
+8. Get AWS Credentials `$(/root/.local/bin/aws ecr get-login --no-include-email --region eu-central-1)`
+9. Give rights to `ubuntu` user on remote host for `var/run/docker.sock`
+10. Install AWS CLI on remote host
+11. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=ueXXrisTgqP2I-1TmOYU2myQS1TCeVuVL0xZNOxNbXX= -e MYSQL_DATABASE=database -e MYSQL_USER=user -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
 
 ## Jenkinsfile
 1. Backend build is clear 
