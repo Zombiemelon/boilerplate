@@ -15,7 +15,8 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "guzzlehttp/guzzle": "^6.0"
+        "guzzlehttp/guzzle": "^6.0",
+        "unsplash/unsplash":"*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -25,7 +26,8 @@
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^7.5",
         "doctrine/dbal": "v2.9.2",
-        "codeception/codeception": "v3.1.1"
+        "codeception/codeception": "v3.1.1",
+        "donatj/mock-webserver": "v2.1.*"
     },
     "config": {
         "optimize-autoloader": true,

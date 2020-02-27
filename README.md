@@ -84,7 +84,12 @@ functional `functional.suite.yml` & unit `unit.suite.yml` tests
 it was a real user, so it is useful for JS SPA. Command to start Selenium `docker run -p 4444:4444 -d selenium/standalone-chrome`
 3. To run tests use the following command `php vendor/bin/codecept run --steps`
 4. For testing purpose you should change Axios base url in `.env` to host machine IP as Selenium is in Docker - `10.0.1.11:8001`. 
-(!) Currently it i change directly in Axios file.
+(!) Currently it is change directly in Axios file.
+5. For third party API `donatj\MockWebServer` is used and that's why `sockets` extension is install in the container. 
+As well as `procps` so that ps command can be used. In `docker-compose` for `composer` container we also add `command: composer update --ignore-platform-reqs --no-scripts` because it should ignore php `sockets` dependency which os in a separate container.
+
+Commands:
+1. Create test: `php vendor/bin/codecept generate:cest api CreateUser`
 
 # Jenkins
 ## Initial setup

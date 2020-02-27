@@ -9,9 +9,11 @@ RUN pecl install xdebug \
         && echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/xdebug.ini \
         && echo "xdebug.remote_host=10.0.1.11" >> /usr/local/etc/php/conf.d/xdebug.ini
 RUN apt-get update; \
-    apt-get install -y libpng-dev; \
+    apt-get install -y libpng-dev procps; \
     docker-php-ext-install gd \
     pdo \
-    pdo_mysql
+    pdo_mysql \
+    mbstring \
+    sockets
 
 EXPOSE 80

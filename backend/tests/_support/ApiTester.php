@@ -1,8 +1,5 @@
 <?php
 
-use Codeception\Actor;
-use Codeception\Util\Locator;
-
 
 /**
  * Inherited Methods
@@ -19,19 +16,11 @@ use Codeception\Util\Locator;
  *
  * @SuppressWarnings(PHPMD)
 */
-class AcceptanceTester extends Actor
+class ApiTester extends \Codeception\Actor
 {
-    use _generated\AcceptanceTesterActions;
+    use _generated\ApiTesterActions;
 
    /**
     * Define custom actions here
     */
-
-    public function login($name, $password)
-    {
-        $I = $this;
-        $I->fillField('#email', $name);
-        $I->fillField('#password', $password);
-        $I->click('#signin');
-    }
 }

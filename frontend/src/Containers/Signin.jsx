@@ -86,6 +86,7 @@ export default function SignIn(props) {
                        type='text'
                        placeholder="Email"
                        onBlur={e => {setEmail(e.target.value)}}
+                       id="email"
                 />
                 <Input style={{
                     borderColor: palette.secondary.main,
@@ -96,6 +97,7 @@ export default function SignIn(props) {
                        type='password'
                        placeholder="Password"
                        onBlur={e => {setPassword(e.target.value)}}
+                       id="password"
                 />
                 <Button style={{
                     backgroundColor: palette.secondary.main,
@@ -106,6 +108,7 @@ export default function SignIn(props) {
                 }} hover={`${palette.secondary.dark} !important`}
                     active={`${palette.primary.light} !important`}
                     onClick={login}
+                        id="signin"
                 >
                     Sign in
                 </Button>

@@ -9,7 +9,7 @@ class FirstCest
     public function frontpageWorks(AcceptanceTester $I)
     {
         $I->amOnPage('/');
-        $I->wait(3);
+        $I->waitForElementClickable('#signin', 3);
         $I->login('eat@me.com', 'govno666');
     }
 }

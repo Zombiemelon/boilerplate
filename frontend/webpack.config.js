@@ -23,6 +23,9 @@ module.exports = () => {
         },
         devServer: {
             historyApiFallback: true,
+            compress: true,
+            //allows to run tests with Selenium
+            disableHostCheck: true
         },
         module: {
             rules: [

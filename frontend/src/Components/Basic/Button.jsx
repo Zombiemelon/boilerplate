@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Button = styled.div`
+const Button = styled.button`
     border-radius: 5px;
     height: 56px;
     display: grid;

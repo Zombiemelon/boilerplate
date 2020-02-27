@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Input = styled.input.attrs(props => ({type: props => props.type}))`
+const Input = styled.input.attrs(props => ({type: props => props.type, id: props => props.id}))`
     height: 56px;
     width: 100%;
     padding: 0 1.8rem;

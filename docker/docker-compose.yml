@@ -20,7 +20,6 @@ services:
       - ${APP_PATH_HOST_BACK}:${APP_PATH_CONTAINER_BACK}
       - ./php/php.ini:/usr/local/etc/php/php.ini
     working_dir: ${APP_PATH_CONTAINER_BACK}
-    command: [sh, -c, "tail -F php artisan migrate"]
 
   db:
     image: mysql:5.7
@@ -37,9 +36,9 @@ services:
   composer:
     image: composer:1.7.2
     volumes:
-          - ${APP_PATH_HOST_BACK}:${APP_PATH_CONTAINER_BACK}
+      - ${APP_PATH_HOST_BACK}:${APP_PATH_CONTAINER_BACK}
     working_dir: ${APP_PATH_CONTAINER_BACK}
-    command: composer update
+    command: composer update --ignore-platform-reqs --no-scripts
 
   inex_front:
     image: node:8-alpine
@@ -49,3 +48,8 @@ services:
       - ${APP_PATH_HOST_FRONT}:${APP_PATH_CONTAINER_FRONT}
     working_dir: ${APP_PATH_CONTAINER_FRONT}
     command: [sh, -c, "npm install && npm start"]
+
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
