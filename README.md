@@ -126,6 +126,12 @@ https://linuxize.com/post/create-a-linux-swap-file/
 10. Install AWS CLI on remote host
 11. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=ueXXrisTgqP2I-1TmOYU2myQS1TCeVuVL0xZNOxNbXX= -e MYSQL_DATABASE=database -e MYSQL_USER=user -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
 
+##How to get secret credentials
+Description is [here](https://codurance.com/2019/05/30/accessing-and-dumping-jenkins-credentials/)
+In sshort:
+1. Get the credentials hash with inspector
+2. Insert it to `http://52.59.247.1:8080/script` like this `println hudson.util.Secret.decrypt("{AQAAABAAAABANx7Sofv4K/ThU0BIB8oUS0bOtZ0xu9UT6sHdHk9lb18+RYF1kcdMhSJ6uKLBd5UFOWX4KDAkZV7HBD8WGabER+qn9rEDlHqeLwrJO69YsvI=}")` 
+
 ## Jenkinsfile
 1. Backend build is clear 
 2. Frontend contains `--build-arg 'arg=.env.test'` that is passed to the Dockerfile where it is used in `ARG arg ENV env_file=$arg` to replace `.env` files.
