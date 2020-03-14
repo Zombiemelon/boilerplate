@@ -47,8 +47,16 @@ pipeline {
         stage ('Build Production Back') {
             steps {
                 script {
+                    //Replace placeholders with environment variables from Jenkins
+                    sh 'env > env.txt'
+                    sh 'touch ./backend/.env.build'
+                    readFile('env.txt').split("\r?\n").each {
+                            sh "sed \"s~{${it.split("=")[0]}}~${it.split("=")[1]}~\" ./backend/.env.staging > ./backend/.env.build && mv ./backend/.env.build ./backend/.env.staging"
+                    }
+                    sh "chmod 777 ./backend/.env.staging && mv ./backend/.env.staging ./backend/.env"
+                    sh 'cat ./backend/.env'
                     if (env.GIT_BRANCH == 'origin/master') {
-                        sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
+                        sh "docker build --build-arg arg=.env -t $CONTAINER_NAME:back -f ./docker/Dockerfile.staging.backend . "
                     }
                 }
             }
@@ -56,6 +64,14 @@ pipeline {
         stage ('Build Production Front') {
             steps {
                 script {
+                    //Replace placeholders with environment variables from Jenkins
+                    sh 'env > env.txt'
+                    sh 'touch ./backend/.env.build'
+                    readFile('env.txt').split("\r?\n").each {
+                            sh "sed \"s~{${it.split("=")[0]}}~${it.split("=")[1]}~\" ./backend/.env.staging > ./backend/.env.build && mv ./backend/.env.build ./backend/.env.staging"
+                    }
+                    sh "chmod 777 ./backend/.env.staging && mv ./backend/.env.staging ./backend/.env"
+                    sh 'cat ./backend/.env'
                     if (env.GIT_BRANCH == 'origin/master') {
                         sh "docker build --build-arg arg=.env.staging -t $CONTAINER_NAME:front -f ./docker/Dockerfile.staging.frontend . "
                     }
