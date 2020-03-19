@@ -131,7 +131,7 @@ https://linuxize.com/post/create-a-linux-swap-file/
 2. Create a new user and attach rights: 
 AmazonEC2FullAccess, SecretsManagerReadWrite, AmazonEC2ContainerRegistryFullAccess, AmazonEC2ContainerRegistryPowerUser
 3. Download .csv file
-4. Run command `aws configure --profile produser` and enter data from the .csv
+4. Run command `aws configure --profile produser` and enter data from the .csv. Do the same in Jenkins.
 5. If you use several AWS profiles follow the [instruction](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) 
 
 ##How to get secret credentials
