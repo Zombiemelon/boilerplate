@@ -126,6 +126,14 @@ https://linuxize.com/post/create-a-linux-swap-file/
 10. Install AWS CLI on remote host
 11. Start mysql `docker run -p 3306:3306 --name mysql -v /db_volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=ueXXrisTgqP2I-1TmOYU2myQS1TCeVuVL0xZNOxNbXX= -e MYSQL_DATABASE=database -e MYSQL_USER=user -e MYSQL_PASSWORD=ueOQrisTgqP2I+9TmOYU2myQS1TCeVuVL0xZNOxNb44= -d mysql:5.7`
 
+##How to get AWS CLI key
+1. Go to [AWS IAM](https://console.aws.amazon.com/iam/home?#/home)
+2. Create a new user and attach rights: 
+AmazonEC2FullAccess, SecretsManagerReadWrite, AmazonEC2ContainerRegistryFullAccess, AmazonEC2ContainerRegistryPowerUser
+3. Download .csv file
+4. Run command `aws configure --profile produser` and enter data from the .csv
+5. If you use several AWS profiles follow the [instruction](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) 
+
 ##How to get secret credentials
 Description is [here](https://codurance.com/2019/05/30/accessing-and-dumping-jenkins-credentials/)
 In sshort:
