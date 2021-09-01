@@ -26,7 +26,7 @@
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^7.5",
         "doctrine/dbal": "v2.9.2",
-        "codeception/codeception": "v3.1.1",
+        "codeception/codeception": "v3.1.3",
         "donatj/mock-webserver": "v2.1.*"
     },
     "config": {
